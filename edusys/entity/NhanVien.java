@@ -2,113 +2,96 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.edusys.entity;
+package entily;
 
 /**
  *
- * @author TranTrongDi
+ * @author hoang
  */
 public class NhanVien {
-    private String maNV;
-    private String tenNV;
-    private String matKhau;
-    private String diaChi;
-    private boolean gioiTinh;
-    private String sdt;
-    private boolean vaiTro;
-    private String tenDN;
-    private String anh;
+
+    private String MaNhanVien;
+    private String TenNhanVien;
+    private String DiaChi;
+    private boolean GioiTinh;
+    private String SDT;
+    private boolean VaiTro;
+    private String Anh;
+
     
-    @Override
-    public String toString() {
-        return this.tenNV;
-    }
 
     public NhanVien() {
     }
-
-    public NhanVien(String maNV, String tenNV, String matKhau, String diaChi, boolean gioiTinh, String sdt, boolean vaiTro, String tenDN, String anh) {
-        this.maNV = maNV;
-        this.tenNV = tenNV;
-        this.matKhau = matKhau;
-        this.diaChi = diaChi;
-        this.gioiTinh = gioiTinh;
-        this.sdt = sdt;
-        this.vaiTro = vaiTro;
-        this.tenDN = tenDN;
-        this.anh = anh;
+   @Override
+    public String toString() {
+        return this.TenNhanVien;
+       
+    }
+    
+    public NhanVien(String MaNhanVien, String TenNhanVien, String DiaChi, boolean GioiTinh, String SDT, boolean VaiTro, String Anh) {
+        this.MaNhanVien = MaNhanVien;
+        this.TenNhanVien = TenNhanVien;
+        this.DiaChi = DiaChi;
+        this.GioiTinh = GioiTinh;
+        this.SDT = SDT;
+        this.VaiTro = VaiTro;
+        this.Anh = Anh;
     }
 
-    public String getMaNV() {
-        return maNV;
+    public String getMaNhanVien() {
+        return MaNhanVien;
     }
 
-    public void setMaNV(String maNV) {
-        this.maNV = maNV;
+    public void setMaNhanVien(String MaNhanVien) {
+        this.MaNhanVien = MaNhanVien;
     }
 
-    public String getTenNV() {
-        return tenNV;
+    public String getTenNhanVien() {
+        return TenNhanVien;
     }
 
-    public void setTenNV(String tenNV) {
-        this.tenNV = tenNV;
-    }
-
-    public String getMatKhau() {
-        return matKhau;
-    }
-
-    public void setMatKhau(String matKhau) {
-        this.matKhau = matKhau;
+    public void setTenNhanVien(String TenNhanVien) {
+        this.TenNhanVien = TenNhanVien;
     }
 
     public String getDiaChi() {
-        return diaChi;
+        return DiaChi;
     }
 
-    public void setDiaChi(String diaChi) {
-        this.diaChi = diaChi;
+    public void setDiaChi(String DiaChi) {
+        this.DiaChi = DiaChi;
     }
 
     public boolean isGioiTinh() {
-        return gioiTinh;
+        return GioiTinh;
     }
 
-    public void setGioiTinh(boolean gioiTinh) {
-        this.gioiTinh = gioiTinh;
+    public void setGioiTinh(boolean GioiTinh) {
+        this.GioiTinh = GioiTinh;
     }
 
-    public String getSdt() {
-        return sdt;
+    public String getSDT() {
+        return SDT;
     }
 
-    public void setSdt(String sdt) {
-        this.sdt = sdt;
+    public void setSDT(String SDT) {
+        this.SDT = SDT;
     }
 
     public boolean isVaiTro() {
-        return vaiTro;
+        return VaiTro;
     }
 
-    public void setVaiTro(boolean vaiTro) {
-        this.vaiTro = vaiTro;
-    }
-
-    public String getTenDN() {
-        return tenDN;
-    }
-
-    public void setTenDN(String tenDN) {
-        this.tenDN = tenDN;
+    public void setVaiTro(boolean VaiTro) {
+        this.VaiTro = VaiTro;
     }
 
     public String getAnh() {
-        return anh;
+        return Anh;
     }
 
-    public void setAnh(String anh) {
-        this.anh = anh;
+    public void setAnh(String Anh) {
+        this.Anh = Anh;
     }
-    
+
 }
