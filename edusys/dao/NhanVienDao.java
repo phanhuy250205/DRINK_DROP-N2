@@ -1,27 +1,29 @@
-package com.edusys.dao;
+package dao;
 
-import com.edusys.entity.NhanVien;
 import com.edusys.utils.JdbcHelper;
+import dao.MainDAO;
+import entily.NhanVien;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NhanVienDao extends MainDao<NhanVien, String> {
+public class NhanVienDao extends MainDAO<NhanVien, String> {
 
-    final String INSERT_SQL = "INSERT INTO NhanVien(MaNhanVien, TenNhanVien, MatKhau, DiaChi, GioiTinh, SDT, VaiTro, TenDN, Anh) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    final String UPDATE_SQL = "UPDATE NhanVien SET TenNhanVien = ?, MatKhau =?, DiaChi = ?, GioiTinh = ?, SDT = ?, VaiTro = ?, TenDN = ?, Anh =? WHERE MaNhanVien = ?";
+    final String INSERT_SQL = "INSERT INTO NhanVien(MaNhanVien,TenNhanVien,DiaChi,GioiTinh,SDT,VaiTro,Anh) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    final String UPDATE_SQL = "UPDATE NhanVien SET TenNhanVien = ?,DiaChi = ?,GioiTinh = ?, SDT = ?, VaiTro = ?, Anh =? WHERE MaNhanVien = ?";
     final String DELETE_SQL = "DELETE FROM NhanVien WHERE MaNhanVien = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM NhanVien";
     final String SELECT_BY_ID_SQL = "SELECT * FROM NhanVien WHERE MaNhanVien = ?";
+    final String SELECT_BY_KEYWORD = "SELECT * FROM NhanVien WHERE TenNhanVien LIKE ?";
 
     @Override
     public void insert(NhanVien entity) {
-        JdbcHelper.update(INSERT_SQL, entity.getMaNV(), entity.getTenNV(), entity.getMatKhau(), entity.getDiaChi(),entity.isGioiTinh(),entity.getSdt(), entity.isVaiTro(), entity.getTenDN(), entity.getAnh());
+        JdbcHelper.update(INSERT_SQL, entity.getMaNhanVien(), entity.getTenNhanVien(), entity.getDiaChi(), entity.isGioiTinh(), entity.getSDT(), entity.isVaiTro(), entity.getAnh());
     }
 
     @Override
     public void update(NhanVien entity) {
-        JdbcHelper.update(UPDATE_SQL, entity.getTenNV(), entity.getMatKhau(), entity.getDiaChi(),entity.isGioiTinh(),entity.getSdt(), entity.isVaiTro(), entity.getTenDN(), entity.getAnh(),entity.getMaNV());
+        JdbcHelper.update(UPDATE_SQL, entity.getTenNhanVien(), entity.getDiaChi(), entity.isGioiTinh(), entity.getSDT(), entity.isVaiTro(), entity.getAnh(), entity.getMaNhanVien());
     }
 
     @Override
@@ -31,33 +33,32 @@ public class NhanVienDao extends MainDao<NhanVien, String> {
 
     @Override
     public List<NhanVien> selectAll() {
-        return selectBySql(SELECT_ALL_SQL);
+        return selectbySql(SELECT_ALL_SQL);
     }
 
     @Override
     public NhanVien selectById(String id) {
-        List<NhanVien> list = selectBySql(SELECT_BY_ID_SQL, id);
+        List<NhanVien> list = selectbySql(SELECT_BY_ID_SQL, id);
         if (list.isEmpty()) {
             return null;
         }
         return list.get(0);
     }
 
+
     @Override
-    public List<NhanVien> selectBySql(String sql, Object... args) {
-        List<NhanVien> list = new ArrayList<>();
+    public List<NhanVien> selectbySql(String sql, Object... args) {
+         List<NhanVien> list = new ArrayList<>();
         try {
             ResultSet rs = JdbcHelper.query(sql, args);
             while (rs.next()) {
                 NhanVien entity = new NhanVien();
-                entity.setMaNV(rs.getString("MaNhanVien"));
-                entity.setTenNV(rs.getString("TenNhanVien"));
-                entity.setMatKhau(rs.getString("MatKhau"));
+                entity.setMaNhanVien(rs.getString("MaNhanVien"));
+                entity.setTenNhanVien(rs.getString("TenNhanVien"));
                 entity.setDiaChi(rs.getString("DiaChi"));
                 entity.setGioiTinh(rs.getBoolean("GioiTinh"));
-                entity.setSdt(rs.getString("SDT"));
                 entity.setVaiTro(rs.getBoolean("VaiTro"));
-                entity.setTenDN(rs.getString("TenDN"));
+                entity.setSDT(rs.getString("SDT"));
                 entity.setAnh(rs.getString("Anh"));
                 list.add(entity);
             }
@@ -67,4 +68,7 @@ public class NhanVienDao extends MainDao<NhanVien, String> {
         return list;
     }
 
+    public List<NhanVien> selectByKeyword(String keyword) {
+        return selectbySql(SELECT_BY_KEYWORD, "%" + keyword + "%");
+    }
 }
