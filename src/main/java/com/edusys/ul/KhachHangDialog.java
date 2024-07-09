@@ -88,7 +88,7 @@ public class KhachHangDialog extends javax.swing.JDialog {
         boolean edit = this.row >= 0;
         boolean first = this.row == 0;
         boolean last = this.row == TblKhachHang.getRowCount() - 1;
-        txtmakh.setEditable(!edit);
+        txtmakh.setEditable(edit);
         btnthem.setEnabled(!edit);
         btnsua.setEnabled(edit);
         btnxoa.setEnabled(edit);
