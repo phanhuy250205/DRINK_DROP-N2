@@ -75,4 +75,74 @@ public class NhanVienDao extends MainDao<NhanVien, String> {
     public List<NhanVien> selectBySql(String sql, Object... args) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+     public List<NhanVien> selectall() {
+        return selectbySql(SELECT_ALL_SQL);
+    } 
+
+   public List<Object[]> getThongKeByNhanVien(String tenNV) {
+    String sql = "{call sp_GetThongKeByNhanVien(?)}";
+    String[] cols = {"ThoiGian", "SoHoaDon", "TongHD", "TongTienBanRa", "TongTienThuLai", "MaNhanVien", "NhanVienLapHoaDon", "SanPham", "GiaNhap", "GiaBan", "SoLuong"}; // Các cột trong kết quả truy vấn
+
+    return getListOfArray(sql, cols, tenNV);
+}
+
+private List<Object[]> getListOfArray(String sql, String[] cols, Object... params) {
+    List<Object[]> list = new ArrayList<>();
+    try {
+        ResultSet rs = JdbcHelper.query(sql, params);
+        while (rs.next()) {
+            Object[] vals = new Object[cols.length];
+            for (int i = 0; i < cols.length; i++) {
+                vals[i] = rs.getObject(cols[i]);
+            }
+            list.add(vals);
+        }
+        rs.getStatement().getConnection().close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+
+
+
+     public float getTongTienVaLoi(String tenNhanVien) {
+        float tongLoiNhuan = 0;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = JdbcHelper.getConnection(); // Lấy kết nối từ JdbcHelper
+            
+            // Câu truy vấn tính tổng lợi nhuận cho nhân viên cụ thể
+            String sql = "SELECT SUM(ct.ThanhTien - sp.GiaNhap * ct.SoLuong) AS TongLoiNhuan " +
+                         "FROM HoaDonChiTiet ct " +
+                         "JOIN SanPham sp ON ct.MaSanPham = sp.MaSanPham " +
+                         "JOIN HoaDon hd ON ct.MaHoaDon = hd.MaHoaDon " +
+                         "JOIN NhanVien nv ON hd.MaNhanVien = nv.MaNhanVien " +
+                         "WHERE nv.TenNhanVien = ?";
+            
+            // Chuẩn bị câu lệnh SQL
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, tenNhanVien);
+            
+            // Thực thi câu lệnh SQL
+            rs = stmt.executeQuery();
+            
+            // Lấy kết quả
+            if (rs.next()) {
+                tongLoiNhuan = rs.getFloat("TongLoiNhuan");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Đóng kết nối và các đối tượng liên quan
+//            JdbcHelper.close(rs, stmt, conn);
+        }
+        
+        // Trả về kết quả tổng lợi nhuận
+        return tongLoiNhuan;
+    }
+       
 }
