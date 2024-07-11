@@ -59,7 +59,7 @@ public class SanPhamDialog extends javax.swing.JDialog {
                 model.addRow(row);
             }
         } catch (Exception e) {
-            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+            MsgBox.alert(this, "Lỗi truy vấn dữ liệu 23!");
         }
     }
 
