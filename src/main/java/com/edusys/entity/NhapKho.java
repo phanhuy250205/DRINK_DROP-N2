@@ -4,9 +4,10 @@ package com.edusys.entity;
 import java.util.Date;
 
 public class NhapKho {
-    private int maPhieuNhap;
-    private String NCC;
-    private String maNhanVien;
+    private String maPhieuNhap;
+    private String maNguoiNhap;
+    private String maNhaCungCap;
+    private String tenSanPham;
     private int soLuong;
     private Date ngayNhap;
     private float TienNhap;
@@ -16,10 +17,11 @@ public class NhapKho {
     public NhapKho() {
     }
 
-    public NhapKho(int maPhieuNhap, String NCC, String maNhanVien,int soLuong ,Date ngayNhap, float TienNhap, String loaiSanPham ,String maSanPham) {
+    public NhapKho(String maPhieuNhap, String maNguoiNhap, String maNhaCungCap, String tenSanPham, int soLuong, Date ngayNhap, float TienNhap, String loaiSanPham, String maSanPham) {
         this.maPhieuNhap = maPhieuNhap;
-        this.NCC = NCC;
-        this.maNhanVien = maNhanVien;
+        this.maNguoiNhap = maNguoiNhap;
+        this.maNhaCungCap = maNhaCungCap;
+        this.tenSanPham = tenSanPham;
         this.soLuong = soLuong;
         this.ngayNhap = ngayNhap;
         this.TienNhap = TienNhap;
@@ -27,28 +29,44 @@ public class NhapKho {
         this.maSanPham = maSanPham;
     }
 
-    public int getMaPhieuNhap() {
+    public String getMaPhieuNhap() {
         return maPhieuNhap;
     }
 
-    public void setMaPhieuNhap(int maPhieuNhap) {
+    public void setMaPhieuNhap(String maPhieuNhap) {
         this.maPhieuNhap = maPhieuNhap;
     }
 
-    public String getNCC() {
-        return NCC;
+    public String getMaNguoiNhap() {
+        return maNguoiNhap;
     }
 
-    public void setNCC(String NCC) {
-        this.NCC = NCC;
+    public void setMaNguoiNhap(String maNguoiNhap) {
+        this.maNguoiNhap = maNguoiNhap;
     }
 
-    public String getMaNhanVien() {
-        return maNhanVien;
+    public String getMaNhaCungCap() {
+        return maNhaCungCap;
     }
 
-    public void setMaNhanVien(String maNhanVien) {
-        this.maNhanVien = maNhanVien;
+    public void setMaNhaCungCap(String maNhaCungCap) {
+        this.maNhaCungCap = maNhaCungCap;
+    }
+
+    public String getTenSanPham() {
+        return tenSanPham;
+    }
+
+    public void setTenSanPham(String tenSanPham) {
+        this.tenSanPham = tenSanPham;
+    }
+
+    public int getSoLuong() {
+        return soLuong;
+    }
+
+    public void setSoLuong(int soLuong) {
+        this.soLuong = soLuong;
     }
 
     public Date getNgayNhap() {
@@ -67,14 +85,6 @@ public class NhapKho {
         this.TienNhap = TienNhap;
     }
 
-    public int getSoLuong() {
-        return soLuong;
-    }
-
-    public void setSoLuong(int soLuong) {
-        this.soLuong = soLuong;
-    }
-
     public String getLoaiSanPham() {
         return loaiSanPham;
     }
@@ -90,5 +100,6 @@ public class NhapKho {
     public void setMaSanPham(String maSanPham) {
         this.maSanPham = maSanPham;
     }
+
     
 }
