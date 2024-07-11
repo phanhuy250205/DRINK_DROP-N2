@@ -272,6 +272,8 @@ public class SanPhamDialog extends javax.swing.JDialog {
         txtSoLuong = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtMota = new javax.swing.JTextArea();
+        txtTienBan = new javax.swing.JTextField();
+        txtTienBanRa = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         btnThemSP = new javax.swing.JButton();
         btnSuaSP = new javax.swing.JButton();
@@ -323,7 +325,7 @@ public class SanPhamDialog extends javax.swing.JDialog {
         jLabel9.setText("Mã sản phẩm");
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel10.setText("Giá tiền");
+        jLabel10.setText("Giá Tiền Nhập Vào");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel12.setText("Số lượng");
@@ -340,6 +342,9 @@ public class SanPhamDialog extends javax.swing.JDialog {
         txtMota.setRows(5);
         jScrollPane2.setViewportView(txtMota);
 
+        txtTienBanRa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtTienBanRa.setText("Tiền Bán Ra");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -347,21 +352,23 @@ public class SanPhamDialog extends javax.swing.JDialog {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtGiaTien, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(cboLoaiSP, 0, 506, Short.MAX_VALUE)
                     .addComponent(txtMaSP)
                     .addComponent(txtTenSP)
-                    .addComponent(txtGiaTien)
                     .addComponent(txtSoLuong)
+                    .addComponent(jScrollPane2)
+                    .addComponent(txtTienBan)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(jLabel9)
-                            .addComponent(jLabel10)
                             .addComponent(jLabel12)
                             .addComponent(jLabel13)
-                            .addComponent(jLabel14))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2))
+                            .addComponent(jLabel14)
+                            .addComponent(txtTienBanRa)
+                            .addComponent(jLabel10))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -384,14 +391,18 @@ public class SanPhamDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtGiaTien, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtTienBanRa)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtTienBan, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cboLoaiSP, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -491,7 +502,7 @@ public class SanPhamDialog extends javax.swing.JDialog {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addContainerGap(10, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThemSP)
                     .addComponent(btnSuaSP)
@@ -502,8 +513,7 @@ public class SanPhamDialog extends javax.swing.JDialog {
                     .addComponent(btnPrev)
                     .addComponent(btnFirts)
                     .addComponent(btnNext)
-                    .addComponent(btnLast))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnLast)))
         );
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -534,14 +544,13 @@ public class SanPhamDialog extends javax.swing.JDialog {
                 .addComponent(jLabel3)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
-                        .addComponent(lblHinhAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                        .addComponent(lblHinhAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         tabs.addTab("THÔNG TIN SẢN PHẨM", jPanel2);
@@ -601,7 +610,7 @@ public class SanPhamDialog extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Mã SP", "Tên SP", "Số Lượng", "Giá Tiền", "Loại Sản Phẩm", "Mô Tả", "Hình Ảnh"
+                "Mã SP", "Tên SP", "Số Lượng", "Giá Tiền Nhập", "Tiền Bán Ra", "Loại Sản Phẩm", "Mô Tả", "Hình Ảnh"
             }
         ));
         tblSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -798,6 +807,8 @@ public class SanPhamDialog extends javax.swing.JDialog {
     private javax.swing.JTextArea txtMota;
     private javax.swing.JTextField txtSoLuong;
     private javax.swing.JTextField txtTenSP;
+    private javax.swing.JTextField txtTienBan;
+    private javax.swing.JLabel txtTienBanRa;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }
