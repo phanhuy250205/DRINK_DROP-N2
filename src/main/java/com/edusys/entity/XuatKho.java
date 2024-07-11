@@ -9,18 +9,20 @@ public class XuatKho {
     private int soLuong;
     private Date ngayXuat;
     private String maNguoiXuat;
+    private String loaiSanPham;
     private String ghiChu;
 
     public XuatKho() {
     }
 
-    public XuatKho(String maPhieuXuat, String maSanPham, String tenSanPham, int soLuong, Date ngayXuat, String maNguoiXuat, String ghiChu) {
+    public XuatKho(String maPhieuXuat, String maSanPham, String tenSanPham, int soLuong, Date ngayXuat, String maNguoiXuat, String loaiSanPham, String ghiChu) {
         this.maPhieuXuat = maPhieuXuat;
         this.maSanPham = maSanPham;
         this.tenSanPham = tenSanPham;
         this.soLuong = soLuong;
         this.ngayXuat = ngayXuat;
         this.maNguoiXuat = maNguoiXuat;
+        this.loaiSanPham = loaiSanPham;
         this.ghiChu = ghiChu;
     }
 
@@ -72,6 +74,14 @@ public class XuatKho {
         this.maNguoiXuat = maNguoiXuat;
     }
 
+    public String getLoaiSanPham() {
+        return loaiSanPham;
+    }
+
+    public void setLoaiSanPham(String loaiSanPham) {
+        this.loaiSanPham = loaiSanPham;
+    }
+
     public String getGhiChu() {
         return ghiChu;
     }
@@ -79,5 +89,5 @@ public class XuatKho {
     public void setGhiChu(String ghiChu) {
         this.ghiChu = ghiChu;
     }
-    
+
 }
