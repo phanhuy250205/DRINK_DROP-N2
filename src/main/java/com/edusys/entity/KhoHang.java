@@ -4,31 +4,53 @@ package com.edusys.entity;
 import java.util.Date;
 
 public class KhoHang {
+    private int ID;
+    private String loaiGiaoDich;
+    private String maPhieu;
     private String maSanPham;
     private String tenSanPham;
-    private String NCC;
     private int soLuong;
-    private float giaNhap;
-    private float giaBan;
-    private int SLTonKho;
-    private Date ngayNhap;
-    private Date ngayXuat;
-    private String loaiSanPham;
+    private Date ngayGiaoDich;
+    private String maNhanVien;
+    private String ghiChu;
 
     public KhoHang() {
     }
 
-    public KhoHang(String maSanPham, String tenSanPham, String NCC, int soLuong, float giaNhap, float giaBan, int SLTonKho, Date ngayNhap, Date ngayXuat, String loaiSanPham) {
+    public KhoHang(int ID, String loaiGiaoDich, String maPhieu, String maSanPham, String tenSanPham, int soLuong, Date ngayGiaoDich, String maNhanVien, String ghiChu) {
+        this.ID = ID;
+        this.loaiGiaoDich = loaiGiaoDich;
+        this.maPhieu = maPhieu;
         this.maSanPham = maSanPham;
         this.tenSanPham = tenSanPham;
-        this.NCC = NCC;
         this.soLuong = soLuong;
-        this.giaNhap = giaNhap;
-        this.giaBan = giaBan;
-        this.SLTonKho = SLTonKho;
-        this.ngayNhap = ngayNhap;
-        this.ngayXuat = ngayXuat;
-        this.loaiSanPham = loaiSanPham;
+        this.ngayGiaoDich = ngayGiaoDich;
+        this.maNhanVien = maNhanVien;
+        this.ghiChu = ghiChu;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public String getLoaiGiaoDich() {
+        return loaiGiaoDich;
+    }
+
+    public void setLoaiGiaoDich(String loaiGiaoDich) {
+        this.loaiGiaoDich = loaiGiaoDich;
+    }
+
+    public String getMaPhieu() {
+        return maPhieu;
+    }
+
+    public void setMaPhieu(String maPhieu) {
+        this.maPhieu = maPhieu;
     }
 
     public String getMaSanPham() {
@@ -47,14 +69,6 @@ public class KhoHang {
         this.tenSanPham = tenSanPham;
     }
 
-    public String getNCC() {
-        return NCC;
-    }
-
-    public void setNCC(String NCC) {
-        this.NCC = NCC;
-    }
-
     public int getSoLuong() {
         return soLuong;
     }
@@ -63,52 +77,28 @@ public class KhoHang {
         this.soLuong = soLuong;
     }
 
-    public float getGiaNhap() {
-        return giaNhap;
+    public Date getNgayGiaoDich() {
+        return ngayGiaoDich;
     }
 
-    public void setGiaNhap(float giaNhap) {
-        this.giaNhap = giaNhap;
+    public void setNgayGiaoDich(Date ngayGiaoDich) {
+        this.ngayGiaoDich = ngayGiaoDich;
     }
 
-    public float getGiaBan() {
-        return giaBan;
+    public String getMaNhanVien() {
+        return maNhanVien;
     }
 
-    public void setGiaBan(float giaBan) {
-        this.giaBan = giaBan;
+    public void setMaNhanVien(String maNhanVien) {
+        this.maNhanVien = maNhanVien;
     }
 
-    public int getSLTonKho() {
-        return SLTonKho;
+    public String getGhiChu() {
+        return ghiChu;
     }
 
-    public void setSLTonKho(int SLTonKho) {
-        this.SLTonKho = SLTonKho;
+    public void setGhiChu(String ghiChu) {
+        this.ghiChu = ghiChu;
     }
-
-    public Date getNgayNhap() {
-        return ngayNhap;
-    }
-
-    public void setNgayNhap(Date ngayNhap) {
-        this.ngayNhap = ngayNhap;
-    }
-
-    public Date getNgayXuat() {
-        return ngayXuat;
-    }
-
-    public void setNgayXuat(Date ngayXuat) {
-        this.ngayXuat = ngayXuat;
-    }
-
-    public String getLoaiSanPham() {
-        return loaiSanPham;
-    }
-
-    public void setLoaiSanPham(String loaiSanPham) {
-        this.loaiSanPham = loaiSanPham;
-    }
-    
+ 
 }
