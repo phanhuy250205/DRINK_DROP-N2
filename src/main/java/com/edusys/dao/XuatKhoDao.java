@@ -8,20 +8,20 @@ import java.util.List;
 
 public class XuatKhoDao extends DrinkdropDao<XuatKho, String> {
 
-    final String INSERT_SQL = "INSERT INTO XuatKho(MaPhieuXuat,MaSanPham,TenSanPham,SoLuong,NgayXuat,MaNguoiXuat,GhiChu)VALUES(?,?,?,?,?,?,?)";
-    final String UPDATE_SQL = "UPDATE XuatKho SET MaSanPham = ? ,TenSanPham = ? ,SoLuong = ? ,NgayXuat = ? ,MaNguoiXuat = ? ,GhiChu = ? WHERE MaPhieuXuat = ?";
+    final String INSERT_SQL = "INSERT INTO XuatKho(MaPhieuXuat,MaSanPham,TenSanPham,SoLuongXuat,NgayXuat,MaNguoiXuat,LoaiSanPham,GhiChu)VALUES(?,?,?,?,?,?,?,?)";
+    final String UPDATE_SQL = "UPDATE XuatKho SET MaSanPham = ? ,TenSanPham = ? ,SoLuongXuat = ? ,NgayXuat = ? ,MaNguoiXuat = ? ,LoaiSanPham = ? ,GhiChu = ? WHERE MaPhieuXuat = ?";
     final String DELETE_SQL = "DELETE FROM XuatKho WHERE MaPhieuXuat = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM XuatKho";
     final String SELECT_BY_ID_SQL = "SELECT * FROM XuatKho WHERE MaPhieuXuat = ?";
 
     @Override
     public void insert(XuatKho entity) {
-        JdbcHelper.update(INSERT_SQL, entity.getMaPhieuXuat(), entity.getMaSanPham(), entity.getTenSanPham(), entity.getSoLuong(), entity.getNgayXuat(), entity.getMaNguoiXuat(), entity.getGhiChu());
+        JdbcHelper.update(INSERT_SQL, entity.getMaPhieuXuat(), entity.getMaSanPham(), entity.getTenSanPham(), entity.getSoLuong(), entity.getNgayXuat(), entity.getMaNguoiXuat(), entity.getLoaiSanPham(),entity.getGhiChu());
     }
 
     @Override
     public void update(XuatKho entity) {
-        JdbcHelper.update(UPDATE_SQL, entity.getMaSanPham(), entity.getTenSanPham(), entity.getSoLuong(), entity.getNgayXuat(), entity.getMaNguoiXuat(), entity.getGhiChu(), entity.getMaPhieuXuat());
+        JdbcHelper.update(UPDATE_SQL, entity.getMaSanPham(), entity.getTenSanPham(), entity.getSoLuong(), entity.getNgayXuat(), entity.getMaNguoiXuat(), entity.getLoaiSanPham(),entity.getGhiChu(), entity.getMaPhieuXuat());
     }
 
     @Override
@@ -53,9 +53,10 @@ public class XuatKhoDao extends DrinkdropDao<XuatKho, String> {
                 entity.setMaPhieuXuat(rs.getString("MaPhieuXuat"));
                 entity.setMaSanPham(rs.getString("MaSanPham"));
                 entity.setTenSanPham(rs.getString("TenSanPham"));
-                entity.setSoLuong(rs.getInt("SoLuong"));
+                entity.setSoLuong(rs.getInt("SoLuongXuat"));
                 entity.setNgayXuat(rs.getDate("NgayXuat"));
                 entity.setMaNguoiXuat(rs.getString("MaNguoiXuat"));
+                entity.setLoaiSanPham(rs.getString("LoaiSanPham"));
                 entity.setGhiChu(rs.getString("GhiChu"));
                 list.add(entity);
             }
