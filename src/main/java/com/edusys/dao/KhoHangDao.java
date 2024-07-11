@@ -8,19 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KhoHangDao extends DrinkdropDao<KhoHang, String>{
-    final String INSERT_SQL = "INSERT INTO KhoHang(MaSanPham,TenSanPham,NCC,SoLuong,GiaNhap,GiaBan,SLTonKho,NgayNhap,NgayXuat,LoaiSanPham) VALUES(?,?,?,?,?,?,?,?,?,?)";
-    final String UPDATE_SQL = "UPDATE KhoHang SET TenSanPham = ? ,NCC = ? ,SoLuong = ? ,GiaNhap = ? ,GiaBan= ? ,SLTonKho = ? ,NgayNhap = ? ,NgayXuat = ? ,LoaiSanPham = ? WHERE MaSanPham =? ";
-    final String DELETE_SQL = "DELETE FROM KhoHang Where MaSanPham= ?";
-    final String SELECT_ALL_SQL = "SELECT * From KhoHang";
-    final String SELECT_BY_ID_SQL = "SELECT * FROM KhoHang where MaSanPham = ?";
+    final String INSERT_SQL = "INSERT INTO QuanLyKho(ID,LoaiGiaoDich,MaPhieu,MaSanPham,TenSanPham,SoLuong,NgayGiaoDich,MaNhanVien,GhiChu) VALUES(?,?,?,?,?,?,?,?,?)";
+    final String UPDATE_SQL = "UPDATE QuanLyKho SET LoaiGiaoDich = ? ,MaPhieu = ? ,MaSanPham = ? ,TenSanPham = ? ,SoLuong = ? ,NgayGiaoDich = ? ,MaNhanVien = ? ,GhiChu = ? WHERE ID = ? ";
+    final String DELETE_SQL = "DELETE FROM QuanLyKho Where ID = ?";
+    final String SELECT_ALL_SQL = "SELECT * From QuanLyKho";
+    final String SELECT_BY_ID_SQL = "SELECT * FROM QuanLyKho where ID = ?";
     @Override
     public void insert(KhoHang entity) {
-        JdbcHelper.update(INSERT_SQL, entity.getMaSanPham(),entity.getTenSanPham(),entity.getNCC(),entity.getSoLuong(),entity.getGiaNhap(),entity.getGiaBan(),entity.getSLTonKho(),entity.getNgayNhap(),entity.getNgayXuat(),entity.getLoaiSanPham());
+        JdbcHelper.update(INSERT_SQL, entity.getID(),entity.getLoaiGiaoDich(),entity.getMaPhieu(),entity.getMaSanPham(),entity.getTenSanPham(),entity.getSoLuong(),entity.getNgayGiaoDich(),entity.getMaNhanVien(),entity.getGhiChu());
     }
 
     @Override
     public void update(KhoHang entity) {
-        JdbcHelper.update(UPDATE_SQL, entity.getTenSanPham(),entity.getNCC(),entity.getSoLuong(),entity.getGiaNhap(),entity.getGiaBan(),entity.getSLTonKho(),entity.getNgayNhap(),entity.getNgayXuat(),entity.getLoaiSanPham(),entity.getMaSanPham());
+        JdbcHelper.update(UPDATE_SQL, entity.getLoaiGiaoDich(),entity.getMaPhieu(),entity.getMaSanPham(),entity.getTenSanPham(),entity.getSoLuong(),entity.getNgayGiaoDich(),entity.getMaNhanVien(),entity.getGhiChu(),entity.getID());
     }
 
     @Override
@@ -49,16 +49,15 @@ public class KhoHangDao extends DrinkdropDao<KhoHang, String>{
             ResultSet rs = JdbcHelper.query(sql, args);
             while (rs.next()) {
                 KhoHang entity = new KhoHang();
+                entity.setID(rs.getInt("ID"));
+                entity.setLoaiGiaoDich(rs.getString("LoaiGiaoDich"));
+                entity.setMaPhieu(rs.getString("MaPhieu"));
                 entity.setMaSanPham(rs.getString("MaSanPham"));
                 entity.setTenSanPham(rs.getString("TenSanPham"));
-                entity.setNCC(rs.getString("NCC"));
                 entity.setSoLuong(rs.getInt("SoLuong"));
-                entity.setGiaNhap(rs.getFloat("GiaNhap"));
-                entity.setGiaBan(rs.getFloat("GiaBan"));
-                entity.setSLTonKho(rs.getInt("SLTonKho"));
-                entity.setNgayNhap(rs.getDate("NgayNhap"));
-                entity.setNgayXuat(rs.getDate("NgayXuat"));
-                entity.setLoaiSanPham(rs.getString("LoaiSanPham"));
+                entity.setNgayGiaoDich(rs.getDate("NgayGiaoDich"));
+                entity.setMaNhanVien(rs.getString("MaNhanVien"));
+                entity.setGhiChu(rs.getString("GhiChu"));
                 list.add(entity);
             }
         } catch (Exception e) {

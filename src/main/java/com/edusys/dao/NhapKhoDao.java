@@ -9,20 +9,20 @@ import java.util.List;
 
 public class NhapKhoDao extends DrinkdropDao<NhapKho, String> {
 
-    final String INSERT_SQL = "INSERT INTO NhapKho(MaPhieuNhap,NCC,Manv,SoLuong,NgayNhap,TongTien,LoaiSanPham,MaSanPham) VALUES(?,?,?,?,?,?,?,?)";
-    final String UPDATE_SQL = "UPDATE NhapKho SET NCC = ? ,Manv = ? ,SoLuong = ?,NgayNhap = ? ,TongTien = ? ,LoaiSanPham = ? ,MaSanPham = ?  WHERE MaPhieuNhap = ?";
+    final String INSERT_SQL = "INSERT INTO NhapKho(MaPhieuNhap,MaNguoiNhap,MaNhaCungCap,NgayNhap,TenSanPham,SoLuong,TienNhap,LoaiSanPham,MaSanPham) VALUES(?,?,?,?,?,?,?,?,?)";
+    final String UPDATE_SQL = "UPDATE NhapKho SET MaNguoiNhap = ? ,MaNhaCungCap = ? ,NgayNhap = ?,TenSanPham = ? ,SoLuong = ? ,TienNhap = ? ,LoaiSanPham = ? ,MaSanPham = ?  WHERE MaPhieuNhap = ?";
     final String DELETE_SQL = "DELETE FROM NhapKho WHERE MaPhieuNhap = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM NhapKho";
     final String SELECT_BY_ID_SQL = "SELECT * FROM NhapKho WHERE MaPhieuNhap = ?";
 
     @Override
     public void insert(NhapKho entity) {
-        JdbcHelper.update(INSERT_SQL, entity.getMaPhieuNhap(), entity.getNCC(), entity.getMaNhanVien(), entity.getSoLuong(), entity.getNgayNhap(), entity.getTienNhap(), entity.getLoaiSanPham(), entity.getMaSanPham());
+        JdbcHelper.update(INSERT_SQL, entity.getMaPhieuNhap(), entity.getMaNguoiNhap(), entity.getMaNhaCungCap(),entity.getNgayNhap(), entity.getTenSanPham(), entity.getSoLuong(), entity.getTienNhap(), entity.getLoaiSanPham(), entity.getMaSanPham());
     }
 
     @Override
     public void update(NhapKho entity) {
-        JdbcHelper.update(UPDATE_SQL, entity.getNCC(), entity.getMaNhanVien(), entity.getSoLuong(), entity.getNgayNhap(), entity.getTienNhap(), entity.getLoaiSanPham(), entity.getMaSanPham(), entity.getMaPhieuNhap());
+        JdbcHelper.update(UPDATE_SQL, entity.getMaNguoiNhap(), entity.getMaNhaCungCap(),entity.getNgayNhap(), entity.getTenSanPham(), entity.getSoLuong(), entity.getTienNhap(), entity.getLoaiSanPham(), entity.getMaSanPham(), entity.getMaPhieuNhap());
     }
 
     @Override
@@ -51,12 +51,13 @@ public class NhapKhoDao extends DrinkdropDao<NhapKho, String> {
             ResultSet rs = JdbcHelper.query(sql, args);
             while (rs.next()) {
                 NhapKho entity = new NhapKho();
-                entity.setMaPhieuNhap(rs.getInt("MaPhieuNhap"));
-                entity.setNCC(rs.getString("NCC"));
-                entity.setMaNhanVien(rs.getString("Manv"));
-                entity.setSoLuong(rs.getInt("SoLuong"));
+                entity.setMaPhieuNhap(rs.getString("MaPhieuNhap"));
+                entity.setMaNguoiNhap(rs.getString("MaNguoiNhap"));
+                entity.setMaNhaCungCap(rs.getString("MaNhaCungCap"));
                 entity.setNgayNhap(rs.getDate("NgayNhap"));
-                entity.setTienNhap(rs.getFloat("TongTien"));
+                entity.setTenSanPham(rs.getString("TenSanPham"));
+                entity.setSoLuong(rs.getInt("SoLuong"));
+                entity.setTienNhap(rs.getFloat("TienNhap"));
                 entity.setLoaiSanPham(rs.getString("LoaiSanPham"));
                 entity.setMaSanPham(rs.getString("MaSanPham"));
                 list.add(entity);
