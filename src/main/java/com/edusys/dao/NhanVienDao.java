@@ -2,8 +2,12 @@ package com.edusys.dao;
 
 import com.edusys.entity.NhanVien;
 import com.edusys.utils.JdbcHelper;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,5 +148,42 @@ private List<Object[]> getListOfArray(String sql, String[] cols, Object... param
         // Trả về kết quả tổng lợi nhuận
         return tongLoiNhuan;
     }
+     
+     public List<Object[]> getThongKeByNhanVien1(String tenNhanVien) {
+    List<Object[]> thongKeList = new ArrayList<>();
+    
+    String sql = "{call sp_GetThongKeByNhanVien(?)}";
+    
+    try (
+        Connection conn = JdbcHelper.getConnection();
+        CallableStatement cstmt = conn.prepareCall(sql);
+    ) {
+        cstmt.setString(1, tenNhanVien);
+        
+        try (ResultSet rs = cstmt.executeQuery()) {
+            while (rs.next()) {
+                Object[] row = new Object[11]; // Adjust the size based on your result set columns
+                row[0] = rs.getDate("Thoigian");
+                row[1] = rs.getString("SoHoaDon");
+                row[2] = rs.getInt("TongHD");
+                row[3] = rs.getFloat("TongTienBanRa");
+                row[4] = rs.getFloat("TongTienThuLai");
+                row[5] = rs.getString("MaNhanVien");
+                row[6] = rs.getString("NhanVienLapHoaDon");
+                row[7] = rs.getString("SanPham");
+                row[8] = rs.getFloat("GiaNhap");
+                row[9] = rs.getFloat("GiaBan");
+                row[10] = rs.getInt("SoLuong");
+                thongKeList.add(row);
+            }
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        // Handle SQL exception as needed
+    }
+    
+    return thongKeList;
+}
+
        
 }
