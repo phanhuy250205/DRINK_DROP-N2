@@ -88,8 +88,8 @@ public class KhoHangDialog extends javax.swing.JDialog {
 
     void setForm(NhapKho model) {
         txtMaPhieuNhap.setText(model.getMaPhieuNhap());
-        txtNCC.setText(model.getMaNguoiNhap());
-        txtMaNV.setText(model.getMaNhaCungCap());
+        txtMaNV.setText(model.getMaNguoiNhap());
+        txtNCC.setText(model.getMaNhaCungCap());
         txtNgayNhap.setText(XDate.toString(model.getNgayNhap(), "dd/MM/yyyy"));
         txtTenSanPham.setText(model.getTenSanPham());
         txtSoLuong.setText(String.valueOf(model.getSoLuong()));
