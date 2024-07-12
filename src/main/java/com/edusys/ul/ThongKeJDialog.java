@@ -154,10 +154,10 @@ public class ThongKeJDialog extends javax.swing.JFrame {
                     model.addRow(row);
                 }
 
-                Object[] firstRow = list.get(0); // Giả sử dòng đầu tiên trong list chứa thông tin cần thiết
-                int tongSanPham = (int) firstRow[3]; // Vị trí của thông tin số lượng tổng trong list
-                int soLuongBan = (int) firstRow[4]; // Vị trí của thông tin số lượng bán trong list
-                int soLuongCon = (int) firstRow[5]; // Vị trí của thông tin số lượng còn trong list
+                Object[] firstRow = list.get(0); 
+                int tongSanPham = (int) firstRow[3]; 
+                int soLuongBan = (int) firstRow[4]; 
+                int soLuongCon = (int) firstRow[5]; 
 
                 // Hiển thị các giá trị lên các JTextField tương ứng
                 lbltongsoluong.setText(String.valueOf(tongSanPham));
@@ -171,26 +171,32 @@ public class ThongKeJDialog extends javax.swing.JFrame {
         }
     }
 
-    private void doanhthu(Date dateFrom) {
-        DefaultTableModel model = (DefaultTableModel) tbldoanhthut.getModel();
-        model.setRowCount(0); // Clear the current table rows
+    private void doanhthu(Date dateFrom, Date dateTo) {
+    DefaultTableModel model = (DefaultTableModel) tbldoanhthut.getModel();
+    model.setRowCount(0); // Clear the current table rows
 
-        // Gọi phương thức từ DAO để lấy danh sách dữ liệu doanh thu từ cơ sở dữ liệu
-        ThongKedao thongKeDAO = new ThongKedao(); // Khởi tạo đối tượng DAO
-        List<Object[]> doanhThuList = thongKeDAO.getDoanhthu1(dateFrom);
-        // Thêm các dòng dữ liệu vào bảng
-        for (Object[] row : doanhThuList) {
-            model.addRow(row);
-        }
-        float tongLoi = 0;
-        for (Object[] row : doanhThuList) {
-            tongLoi += (float) row[2];
-        }
-        lbldoanhthutong.setText(String.valueOf(tongLoi)); // Hiển thị tổng lợi nhuận vào txttienloi
-        if (doanhThuList.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Không có dữ liệu thống kê cho ngày đã chọn.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        }
+    // Gọi phương thức từ DAO để lấy danh sách dữ liệu doanh thu từ cơ sở dữ liệu
+    ThongKedao thongKeDAO = new ThongKedao(); // Khởi tạo đối tượng DAO
+    List<Object[]> doanhThuList = thongKeDAO.getDoanhthu1(dateFrom, dateTo);
+    
+    // Thêm các dòng dữ liệu vào bảng
+    for (Object[] row : doanhThuList) {
+        model.addRow(row);
     }
+    
+    // Tính tổng lợi nhuận
+    float tongLoi = 0;
+    for (Object[] row : doanhThuList) {
+        tongLoi += (float) row[2];
+    }
+    
+    lbldoanhthutong.setText(String.valueOf(tongLoi)); // Hiển thị tổng lợi nhuận vào lbldoanhthutong
+    
+    if (doanhThuList.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Không có dữ liệu thống kê cho ngày đã chọn.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+    }
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -210,6 +216,8 @@ public class ThongKeJDialog extends javax.swing.JFrame {
         tbldoanhthut = new javax.swing.JTable();
         lbldoanhthutong = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        thongke_dateto = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
         cbnhanvien = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -228,6 +236,8 @@ public class ThongKeJDialog extends javax.swing.JFrame {
         lblsoluongban = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        thongke_dateform.setDateFormatString("dd/MM/yyyy ");
 
         jLabel4.setText("CHỌN NGÀY ĐỂ THỐNG KÊ : ");
 
@@ -256,6 +266,11 @@ public class ThongKeJDialog extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setText("TỔNG DOANH THU :");
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setText("Đến :");
+
+        thongke_dateto.setDateFormatString("dd/MM/yyyy ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -264,20 +279,23 @@ public class ThongKeJDialog extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(74, 74, 74)
+                        .addContainerGap()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(thongke_dateform, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(66, 66, 66)
-                        .addComponent(btnthongkedoanhthu, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 185, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(thongke_dateto, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnthongkedoanhthu, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(133, 133, 133)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbldoanhthutong, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(304, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,10 +306,13 @@ public class ThongKeJDialog extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(thongke_dateform, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(btnthongkedoanhthu, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnthongkedoanhthu, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(thongke_dateto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(13, 13, 13)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -478,11 +499,14 @@ public class ThongKeJDialog extends javax.swing.JFrame {
 
     private void btnthongkedoanhthuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthongkedoanhthuActionPerformed
         java.util.Date dateFrom = thongke_dateform.getDate();
-        if (dateFrom != null) {
+        java.util.Date dateTo = thongke_dateto.getDate(); // Assuming thongke_dateto is your end date chooser
+
+        if (dateFrom != null && dateTo != null) {
             java.sql.Date sqlDateFrom = new java.sql.Date(dateFrom.getTime());
-            doanhthu(sqlDateFrom);
+            java.sql.Date sqlDateTo = new java.sql.Date(dateTo.getTime());
+            doanhthu(sqlDateFrom, sqlDateTo); // Pass both dates to the doanhthu method
         } else {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một ngày.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn cả hai ngày bắt đầu và kết thúc.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnthongkedoanhthuActionPerformed
 
@@ -531,6 +555,7 @@ public class ThongKeJDialog extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -548,5 +573,6 @@ public class ThongKeJDialog extends javax.swing.JFrame {
     private javax.swing.JTable tblnhanvien;
     private javax.swing.JTable tblsanpham;
     private com.toedter.calendar.JDateChooser thongke_dateform;
+    private com.toedter.calendar.JDateChooser thongke_dateto;
     // End of variables declaration//GEN-END:variables
 }
