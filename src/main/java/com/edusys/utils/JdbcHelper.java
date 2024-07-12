@@ -18,8 +18,8 @@ public class JdbcHelper {
 
     private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static String dburl = "jdbc:sqlserver://localhost:1433;database=DRINK_DROP;encrypt=false;trustServerCertificate=true";
-    private static String username = "sa";
-    private static String password = "0358545623";
+    private static String username = "huy";
+    private static String password = "123456";
 
     static {
         try {
@@ -77,5 +77,11 @@ public class JdbcHelper {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(dburl, username, password);
     }
 }
