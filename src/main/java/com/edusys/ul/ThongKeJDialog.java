@@ -82,7 +82,7 @@ public class ThongKeJDialog extends javax.swing.JFrame {
         }
     }
 
-    private void filltablenhanvien() {
+   private void filltablenhanvien() {
     DefaultTableModel model = (DefaultTableModel) tblnhanvien.getModel();
     model.setRowCount(0); // Xóa hết các dòng hiện tại trong bảng để chuẩn bị cho việc thêm dữ liệu mới
 
@@ -117,9 +117,24 @@ public class ThongKeJDialog extends javax.swing.JFrame {
         });
     }
 
-    // Hiển thị tổng lợi nhuận vào lblnhanvien
-    lblnhanvien.setText(String.valueOf(nvdao.getTongTienVaLoi(maNhanVien)));
+    // Nếu danh sách thống kê không rỗng, đổ dữ liệu vào lblnhanvien
+    if (!thongKeList.isEmpty()) {
+        // Tính tổng lợi nhuận
+        float totalLoiNhuan = 0;
+        for (Object[] row : thongKeList) {
+            float thanhTien = ((Number) row[3]).floatValue(); // Tổng tiền bán ra (kiểu Float)
+            float tongTienThuLai = ((Number) row[4]).floatValue(); // Tổng tiền thu lại (kiểu Float)
+            totalLoiNhuan += (thanhTien - tongTienThuLai);
+        }
+
+        // Đổ dữ liệu vào lblnhanvien
+        lblnhanvien.setText(String.format("%.2f", totalLoiNhuan));
+    } else {
+        // Nếu không có dữ liệu, đặt giá trị mặc định cho lblnhanvien
+        lblnhanvien.setText("Tổng lợi nhuận: 0.00");
+    }
 }
+
 
 
     void filltablesanpham() {
