@@ -190,7 +190,7 @@ public class ThongKeJDialog extends javax.swing.JFrame {
         tongLoi += (float) row[2];
     }
     
-    lbldoanhthutong.setText(String.valueOf(tongLoi)); // Hiển thị tổng lợi nhuận vào lbldoanhthutong
+    lbldoanhthutong.setText(String.valueOf(tongLoi+"VND")); // Hiển thị tổng lợi nhuận vào lbldoanhthutong
     
     if (doanhThuList.isEmpty()) {
         JOptionPane.showMessageDialog(null, "Không có dữ liệu thống kê cho ngày đã chọn.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
