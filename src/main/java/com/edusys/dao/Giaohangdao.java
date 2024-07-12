@@ -61,7 +61,7 @@ public class Giaohangdao extends MainDao<Giaohang , String>{
     public List<Giaohang> selectBySql(String sql, Object... args) {
         List<Giaohang> list = new ArrayList<>();
         try {
-            ResultSet rs = JdbcHelper.querry(sql, args);
+            ResultSet rs = JdbcHelper.query(sql, args);
             while (rs.next()) {                
                 Giaohang ennity = new Giaohang();
                 ennity.setMaGiaoHang(rs.getString("MaGiaoHang"));
