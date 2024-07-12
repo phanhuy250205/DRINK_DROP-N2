@@ -178,7 +178,7 @@ private void doanhthu(Date dateFrom) {
     for (Object[] row : doanhThuList) {
         tongLoi += (float) row[2];
     }
-    txtdoanhthutong.setText(String.valueOf(tongLoi)); // Hiển thị tổng lợi nhuận vào txttienloi
+    lbldoanhthutong.setText(String.valueOf(tongLoi)); // Hiển thị tổng lợi nhuận vào txttienloi
     if (doanhThuList.isEmpty()) {
         JOptionPane.showMessageDialog(null, "Không có dữ liệu thống kê cho ngày đã chọn.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -204,7 +204,8 @@ private void doanhthu(Date dateFrom) {
         btnthongkedoanhthu = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbldoanhthut = new javax.swing.JTable();
-        txtdoanhthutong = new javax.swing.JTextField();
+        lbldoanhthutong = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         cbnhanvien = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -241,10 +242,15 @@ private void doanhthu(Date dateFrom) {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Thoigianlap", "TongSoSanPham", "Tongtien", "MaNhanVien", "NhanVienLapHoadon"
+                "Thời Gian Lập", "Tổng Số SP", "Tổng Tiền", "Mã Nhân Viên", "Nhân Viên Lập Hóa Đơn"
             }
         ));
         jScrollPane3.setViewportView(tbldoanhthut);
+
+        lbldoanhthutong.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setText("TỔNG DOANH THU :");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -254,34 +260,40 @@ private void doanhthu(Date dateFrom) {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(74, 74, 74)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(thongke_dateform, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(66, 66, 66)
-                                .addComponent(btnthongkedoanhthu, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(347, 347, 347)
-                                .addComponent(txtdoanhthutong, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 202, Short.MAX_VALUE)))
+                        .addGap(74, 74, 74)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(thongke_dateform, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(66, 66, 66)
+                        .addComponent(btnthongkedoanhthu, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 185, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(133, 133, 133)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbldoanhthutong, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnthongkedoanhthu)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(thongke_dateform, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(thongke_dateform, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnthongkedoanhthu, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtdoanhthutong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lbldoanhthutong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         ko.addTab("DOANH THU ", jPanel1);
@@ -516,6 +528,7 @@ private void doanhthu(Date dateFrom) {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -524,6 +537,7 @@ private void doanhthu(Date dateFrom) {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane ko;
     private javax.swing.JLabel lbldoanhthu;
+    private javax.swing.JLabel lbldoanhthutong;
     private javax.swing.JLabel lblnhanvien;
     private javax.swing.JLabel lblsoluongban;
     private javax.swing.JLabel lblsoluongcon;
@@ -532,6 +546,5 @@ private void doanhthu(Date dateFrom) {
     private javax.swing.JTable tblnhanvien;
     private javax.swing.JTable tblsanpham;
     private com.toedter.calendar.JDateChooser thongke_dateform;
-    private javax.swing.JTextField txtdoanhthutong;
     // End of variables declaration//GEN-END:variables
 }
