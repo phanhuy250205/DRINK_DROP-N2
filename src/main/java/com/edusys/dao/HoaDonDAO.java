@@ -68,6 +68,7 @@ public class HoaDonDAO extends MainDao<HoaDon, String>{
                     hd.setSDTKhach(rs.getString("SDTKhach"));
                     hd.setTongTien(rs.getFloat("TongTien"));
                     hd.setThoiGian(rs.getDate("ThoiGian"));
+                    hd.setMaNhanVien("MaNhanVien");
                     list.add(hd);
                 }
             }finally{

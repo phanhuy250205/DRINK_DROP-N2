@@ -17,16 +17,18 @@ public class HoaDon {
     private String SDTKhach;
     private float tongTien;
     private Date thoiGian = new Date();
+    private String maNhanVien;
 
     public HoaDon() {
     }
 
-    public HoaDon(String maHD, String khachHang, String diaChiKhach, String SDTKhach, float tongTien) {
+    public HoaDon(String maHD, String khachHang, String diaChiKhach, String SDTKhach, float tongTien, String maNhanVien) {
         this.maHD = maHD;
         this.khachHang = khachHang;
         this.diaChiKhach = diaChiKhach;
         this.SDTKhach = SDTKhach;
         this.tongTien = tongTien;
+        this.maNhanVien = maNhanVien;
     }
 
     public String getMaHD() {
@@ -75,6 +77,14 @@ public class HoaDon {
 
     public void setThoiGian(Date thoiGian) {
         this.thoiGian = thoiGian;
+    }
+
+    public String getMaNhanVien() {
+        return maNhanVien;
+    }
+
+    public void setMaNhanVien(String maNhanVien) {
+        this.maNhanVien = maNhanVien;
     }
            
     

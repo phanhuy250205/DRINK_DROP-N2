@@ -70,20 +70,22 @@ public class HoaDonForm extends javax.swing.JDialog {
         DefaultTableModel model = (DefaultTableModel) tblChiTietHoaDon.getModel();
         model.setRowCount(0);
         try {
-            List<HoaDonChiTiet> list = hdctDAO.selectAll();
-            for (HoaDonChiTiet hdct : list) {
-                Object[] row = {
-                    hdct.getMaHDCT(),
-                    hdct.getMaHD(),
-                    hdct.getMaSanPham(),
-                    hdct.getSoLuong(),
-                    hdct.getDonGia(),
-                    hdct.getThanhTien()
-                };
-                model.addRow(row);
-            }
-        } catch (Exception e) {
-            MsgBox.alert(this, "Lỗi Truy Vấn Dữ Liệu!");
+                String maHoaDon = (String) tblDSHoaDon.getValueAt(this.row, 0);
+                List<HoaDonChiTiet> list = hdctDAO.selectByMaHD(maHoaDon);
+                for (HoaDonChiTiet hdct : list) {
+                    Object[] row = {
+                        hdct.getMaHDCT(),
+                        hdct.getMaHD(),
+                        hdct.getMaSanPham(),
+                        hdct.getSoLuong(),
+                        hdct.getDonGia(),
+                        hdct.getThanhTien()
+                    };
+                    model.addRow(row);
+                }
+
+        } catch (Exception e){
+            MsgBox.alert(this, "Lỗi Truy Vấn Dữ Liệu!" + e.getMessage());
         }
     }
     
@@ -100,7 +102,8 @@ public class HoaDonForm extends javax.swing.JDialog {
                     hd.getDiaChiKhach(),
                     hd.getSDTKhach(),
                     hd.getTongTien(),
-                    hd.getThoiGian()
+                    hd.getThoiGian(),
+                    hd.getMaNhanVien()
                 };
                 model.addRow(row);
             }

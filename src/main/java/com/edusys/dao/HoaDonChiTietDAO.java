@@ -53,7 +53,7 @@ public class HoaDonChiTietDAO extends MainDao<HoaDonChiTiet, String>{
     @Override
     public List<HoaDonChiTiet> selectBySql(String sql, Object... args) {
         List<HoaDonChiTiet> list = new ArrayList<>();
-        try {
+        try{
             ResultSet rs = JdbcHelper.query(sql, args);
             try {
                 rs = JdbcHelper.query(sql, args);
@@ -76,8 +76,26 @@ public class HoaDonChiTietDAO extends MainDao<HoaDonChiTiet, String>{
         return list;
     }
     
-    public List<HoaDonChiTiet> selectByMaHD(String maHoaDon) {
-        return selectBySql(SELECT_BY_MAHD);
+    public List<HoaDonChiTiet> selectByMaHD(String maHoaDon, Object ... args) throws SQLException {
+    List<HoaDonChiTiet> list = new ArrayList<>();
+    String sql = "SELECT * FROM HoaDonChiTiet WHERE MaHoaDon = ?";
+    try(PreparedStatement ps = JdbcHelper.getStmt(sql, args)){
+        ps.setString(1, maHoaDon);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            while(rs.next()){
+                HoaDonChiTiet hdct = new HoaDonChiTiet();
+                hdct.setMaHDCT(rs.getString("MaHDCT"));
+                hdct.setMaHD(rs.getString("MaHoaDon"));
+                hdct.setMaSanPham(rs.getString("MaSanPham"));
+                hdct.setSoLuong(rs.getInt("SoLuong"));
+                hdct.setDonGia(rs.getFloat("DonGia"));
+                hdct.setThanhTien(rs.getFloat("ThanhTien"));
+                list.add(hdct);
+            }
+        }
     }
+    return list;
+}
     
 }
