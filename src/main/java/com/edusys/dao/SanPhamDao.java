@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SanPhamDao extends DrinkdropDao<SanPham, String> {
+public class SanPhamDao extends MainDao<SanPham, String> {
 
-    final String INSERT_SQL = "INSERT INTO SanPham(MaSanPham,TenSanPham,SoLuong,GiaBan,LoaiSanPham,MoTa,Anh) VALUES(?,?,?,?,?,?,?)";
-    final String UPDATE_SQL = "UPDATE SanPham SET TenSanPham = ? ,SoLuong=? ,GiaBan= ? ,LoaiSanPham = ? ,MoTa = ? ,Anh = ? WHERE MaSanPham =? ";
+    final String INSERT_SQL = "INSERT INTO SanPham(MaSanPham,TenSanPham,SoLuong,GiaBan,LoaiSanPham,MoTa,Anh,GiaNhap,TongSanPham) VALUES(?,?,?,?,?,?,?,?,?)";
+    final String UPDATE_SQL = "UPDATE SanPham SET TenSanPham = ? ,SoLuong= ?,GiaBan= ? ,LoaiSanPham = ? ,MoTa = ?, Anh = ? ,GiaNhap = ?  ,TongSanPham = ?  WHERE MaSanPham =? ";
     final String DELETE_SQL = "DELETE FROM SanPham Where MaSanPham= ?";
     final String SELECT_ALL_SQL = "SELECT * From SanPham";
     final String SELECT_BY_ID_SQL = "SELECT * FROM SanPham where MaSanPham = ?";
@@ -17,12 +17,12 @@ public class SanPhamDao extends DrinkdropDao<SanPham, String> {
 
     @Override
     public void insert(SanPham entity) {
-        JdbcHelper.update(INSERT_SQL, entity.getMaSanPham(), entity.getTenSanPham(), entity.getSoLuong(), entity.getGiaBan(), entity.getLoaiSanPham(), entity.getMoTa(), entity.getHinh());
+        JdbcHelper.update(INSERT_SQL, entity.getMaSanPham(), entity.getTenSanPham(), entity.getSoLuong(), entity.getGiaBan(), entity.getLoaiSanPham(), entity.getMoTa(),entity.getHinh(),entity.getGiaNhap(),entity.getTongSanPham());
     }
 
     @Override
     public void update(SanPham entity) {
-        JdbcHelper.update(UPDATE_SQL, entity.getTenSanPham(), entity.getSoLuong(), entity.getGiaBan(), entity.getLoaiSanPham(), entity.getMoTa(), entity.getHinh(), entity.getMaSanPham());
+        JdbcHelper.update(UPDATE_SQL,  entity.getTenSanPham(), entity.getSoLuong(), entity.getGiaBan(), entity.getLoaiSanPham(), entity.getMoTa(),entity.getHinh(),entity.getGiaNhap(),entity.getTongSanPham(), entity.getMaSanPham());
     }
 
     @Override
@@ -53,11 +53,13 @@ public class SanPhamDao extends DrinkdropDao<SanPham, String> {
                 SanPham entity = new SanPham();
                 entity.setMaSanPham(rs.getString("MaSanPham"));
                 entity.setTenSanPham(rs.getString("TenSanPham"));
-                entity.setSoLuong(rs.getInt("SoLuong"));
+                entity.setSoLuong(rs.getInt("SoLuong"));                  
                 entity.setGiaBan(rs.getFloat("GiaBan"));
                 entity.setLoaiSanPham(rs.getString("LoaiSanPham"));
                 entity.setMoTa(rs.getString("MoTa"));
+                entity.setGiaNhap(rs.getFloat("GiaNhap"));
                 entity.setHinh(rs.getString("Anh"));
+                entity.setTongSanPham(rs.getInt("TongSanPham")); 
                 list.add(entity);
             }
         } catch (Exception e) {
