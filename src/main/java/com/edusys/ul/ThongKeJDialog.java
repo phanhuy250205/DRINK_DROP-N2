@@ -94,7 +94,7 @@ public class ThongKeJDialog extends javax.swing.JFrame {
     NhanVienDao nvdao = new NhanVienDao();
     List<Object[]> thongKeList = nvdao.getThongKeByNhanVien(maNhanVien);
     //Định Dạng Số với Dấu Ngăn Cách Hàng Nghìn
-       DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
+       DecimalFormat decimalFormat = new DecimalFormat("#,###.000");
     // Điền dữ liệu vào bảng
     for (Object[] row : thongKeList) {// Lấy thông tin từ row của thongKeList và tính toán số tiền lợi nhuận
         float thanhTien = ((Number) row[3]).floatValue(); // Tổng tiền bán ra (kiểu Float)
