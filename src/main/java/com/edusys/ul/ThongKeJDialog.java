@@ -93,7 +93,7 @@ public class ThongKeJDialog extends javax.swing.JFrame {
     // Gọi DAO để lấy thông tin thống kê
     NhanVienDao nvdao = new NhanVienDao();
     List<Object[]> thongKeList = nvdao.getThongKeByNhanVien(maNhanVien);
-    //Định Dạng Số với Dấu Ngăn Cách Hàng Nghìn
+    //Định Dạng Số với Dấu Ngăn Cách Hàng Nghìnok
        DecimalFormat decimalFormat = new DecimalFormat("#,###.000");
     // Điền dữ liệu vào bảng
     for (Object[] row : thongKeList) {// Lấy thông tin từ row của thongKeList và tính toán số tiền lợi nhuận
