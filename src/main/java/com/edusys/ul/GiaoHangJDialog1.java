@@ -293,6 +293,11 @@ public class GiaoHangJDialog1 extends javax.swing.JFrame {
         btnxoa.setForeground(new java.awt.Color(0, 0, 0));
         btnxoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/delete.png"))); // NOI18N
         btnxoa.setText("Xóa");
+        btnxoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnxoaActionPerformed(evt);
+            }
+        });
 
         btnlammoi1.setBackground(new java.awt.Color(255, 255, 255));
         btnlammoi1.setForeground(new java.awt.Color(0, 0, 0));
@@ -452,6 +457,11 @@ public class GiaoHangJDialog1 extends javax.swing.JFrame {
         // TODO add your handling code here:
         clearform();
     }//GEN-LAST:event_btnlammoi1ActionPerformed
+
+    private void btnxoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnxoaActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnxoaActionPerformed
 
     /**
      * @param args the command line arguments
