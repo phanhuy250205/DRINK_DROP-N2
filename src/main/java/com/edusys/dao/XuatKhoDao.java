@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class XuatKhoDao extends DrinkdropDao<XuatKho, String> {
+public class XuatKhoDao extends MainDao<XuatKho, String> {
 
     final String INSERT_SQL = "INSERT INTO XuatKho(MaPhieuXuat,MaSanPham,TenSanPham,SoLuongXuat,NgayXuat,MaNguoiXuat,LoaiSanPham,GhiChu)VALUES(?,?,?,?,?,?,?,?)";
     final String UPDATE_SQL = "UPDATE XuatKho SET MaSanPham = ? ,TenSanPham = ? ,SoLuongXuat = ? ,NgayXuat = ? ,MaNguoiXuat = ? ,LoaiSanPham = ? ,GhiChu = ? WHERE MaPhieuXuat = ?";

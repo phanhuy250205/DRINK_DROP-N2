@@ -2,7 +2,10 @@ package com.edusys.dao;
 
 import com.edusys.entity.SanPham;
 import com.edusys.utils.JdbcHelper;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,5 +74,43 @@ public class SanPhamDao extends MainDao<SanPham, String> {
     public List<SanPham> selectByKeyword(String keyword) {
         return selectBySql(SELECT_BY_KEYWORD, "%" + keyword + "%");
     }
+    
+    
+    public List<Object[]> getThongKeByThoiGian(String tenSanPham) {
+    List<Object[]> thongKeList = new ArrayList<>();
+    
+    String sql = "{call sp_GetThongKeByThoiGian(?)}";
+    
+    try (
+        Connection conn = JdbcHelper.getConnection();
+        CallableStatement cstmt = conn.prepareCall(sql);
+    ) {
+        // Kiểm tra kết nối có thành công hay không
+        if (conn == null) {
+            throw new SQLException("Unable to establish a database connection.");
+        }
+        
+        cstmt.setString(1, tenSanPham);
+        
+        try (ResultSet rs = cstmt.executeQuery()) {
+            while (rs.next()) {
+                Object[] row = new Object[6]; // Số cột của kết quả truy vấn
+                row[0] = rs.getString("MaSanPham");
+                row[1] = rs.getString("TenSanPham");
+                row[2] = rs.getString("LoaiSanPham");
+                row[3] = rs.getInt("TongSanPham");
+                row[4] = rs.getInt("SoLuongBan");
+                row[5] = rs.getInt("SoLuongCon");
+                thongKeList.add(row);
+            }
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        // Xử lý lỗi SQL tại đây, có thể ghi log hoặc hiển thị thông báo lỗi cho người dùng
+    }
+    
+    return thongKeList;
+}
+
 
 }

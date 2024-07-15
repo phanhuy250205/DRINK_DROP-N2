@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NhapKhoDao extends DrinkdropDao<NhapKho, String> {
+public class NhapKhoDao extends MainDao<NhapKho, String> {
 
     final String INSERT_SQL = "INSERT INTO NhapKho(MaPhieuNhap,MaNguoiNhap,MaNhaCungCap,NgayNhap,TenSanPham,SoLuong,TienNhap,LoaiSanPham,MaSanPham) VALUES(?,?,?,?,?,?,?,?,?)";
     final String UPDATE_SQL = "UPDATE NhapKho SET MaNguoiNhap = ? ,MaNhaCungCap = ? ,NgayNhap = ?,TenSanPham = ? ,SoLuong = ? ,TienNhap = ? ,LoaiSanPham = ? ,MaSanPham = ?  WHERE MaPhieuNhap = ?";
