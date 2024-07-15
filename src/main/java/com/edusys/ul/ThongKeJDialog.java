@@ -13,6 +13,7 @@ import com.edusys.utils.XImage;
 import java.awt.HeadlessException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -84,7 +85,7 @@ public class ThongKeJDialog extends javax.swing.JFrame {
 
    private void filltablenhanvien() {
     DefaultTableModel model = (DefaultTableModel) tblnhanvien.getModel();
-    model.setRowCount(0); // Xóa hết các dòng hiện tại trong bảng để chuẩn bị cho việc thêm dữ liệu mới
+    model.setRowCount(0); 
 
     // Lấy mã nhân viên từ ComboBox
     String maNhanVien = (String) cbnhanvien.getSelectedItem();
@@ -92,10 +93,10 @@ public class ThongKeJDialog extends javax.swing.JFrame {
     // Gọi DAO để lấy thông tin thống kê
     NhanVienDao nvdao = new NhanVienDao();
     List<Object[]> thongKeList = nvdao.getThongKeByNhanVien(maNhanVien);
-
+    //Định Dạng Số với Dấu Ngăn Cách Hàng Nghìn
+       DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
     // Điền dữ liệu vào bảng
-    for (Object[] row : thongKeList) {
-        // Lấy thông tin từ row của thongKeList và tính toán số tiền lợi nhuận
+    for (Object[] row : thongKeList) {// Lấy thông tin từ row của thongKeList và tính toán số tiền lợi nhuận
         float thanhTien = ((Number) row[3]).floatValue(); // Tổng tiền bán ra (kiểu Float)
         float tongTienThuLai = ((Number) row[4]).floatValue(); // Tổng tiền thu lại (kiểu Float)
         float loiNhuan = thanhTien - tongTienThuLai;
@@ -105,15 +106,15 @@ public class ThongKeJDialog extends javax.swing.JFrame {
             row[0], // Thời gian
             row[1], // Số hóa đơn
             row[2], // Tổng số hóa đơn
-            thanhTien, // Tổng tiền bán ra
-            tongTienThuLai, // Tổng tiền thu lại
+            decimalFormat.format(thanhTien),
+            decimalFormat.format(tongTienThuLai),
             row[5], // Mã nhân viên
             row[6], // Nhân viên lập hóa đơn
             row[7], // Sản phẩm
-            row[8], // Giá nhập
-            row[9], // Giá bán
-            row[10], // Số lượng
-            loiNhuan // Lợi nhuận
+            decimalFormat.format(((Number) row[8]).floatValue()), // Giá nhập với định dạng
+            decimalFormat.format(((Number) row[9]).floatValue()), // Giá bán với định dạng
+            decimalFormat.format(((Number) row[10]).intValue()),           
+            decimalFormat.format(loiNhuan)
         });
     }
 
@@ -128,10 +129,10 @@ public class ThongKeJDialog extends javax.swing.JFrame {
         }
 
         // Đổ dữ liệu vào lblnhanvien
-        lblnhanvien.setText(String.format("%.2f", totalLoiNhuan));
+        lblnhanvien.setText(("Tổng "+decimalFormat.format(totalLoiNhuan)));
     } else {
         // Nếu không có dữ liệu, đặt giá trị mặc định cho lblnhanvien
-        lblnhanvien.setText("Tổng lợi nhuận: 0.00");
+        lblnhanvien.setText("Tổng : 0.00");
     }
 }
 
@@ -178,6 +179,8 @@ public class ThongKeJDialog extends javax.swing.JFrame {
     // Gọi phương thức từ DAO để lấy danh sách dữ liệu doanh thu từ cơ sở dữ liệu
     ThongKedao thongKeDAO = new ThongKedao(); // Khởi tạo đối tượng DAO
     List<Object[]> doanhThuList = thongKeDAO.getDoanhthu1(dateFrom, dateTo);
+    //Định Dạng Số với dấu Ngăn cách Hàng Ngìn
+    DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
     
     // Thêm các dòng dữ liệu vào bảng
     for (Object[] row : doanhThuList) {
@@ -190,8 +193,7 @@ public class ThongKeJDialog extends javax.swing.JFrame {
         tongLoi += (float) row[2];
     }
     
-    lbldoanhthutong.setText(String.valueOf(tongLoi+"VND")); // Hiển thị tổng lợi nhuận vào lbldoanhthutong
-    
+    lbldoanhthutong.setText(decimalFormat.format(tongLoi)+"VND");
     if (doanhThuList.isEmpty()) {
         JOptionPane.showMessageDialog(null, "Không có dữ liệu thống kê cho ngày đã chọn.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     }
