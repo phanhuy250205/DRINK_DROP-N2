@@ -9,7 +9,6 @@ import com.edusys.entity.khachhang;
 import com.edusys.utils.Auth;
 import com.edusys.utils.MsgBox;
 
-
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -49,8 +48,7 @@ public class KhachHangDialog extends javax.swing.JDialog {
                     nh.getTenKhachHang(),
                     nh.getDiaChi(),
                     nh.getSDT(),
-                    nh.getLoaiKhachHang(),
-                    nh.getMaNhanVien(),};
+                    nh.getLoaiKhachHang(),};
                 model.addRow(row);
             }
         } catch (Exception e) {
@@ -63,7 +61,7 @@ public class KhachHangDialog extends javax.swing.JDialog {
         txttenkh.setText(model.getTenKhachHang());
         txtdiachi.setText(model.getDiaChi());
         txtsdt.setText(model.getSDT());
-        cbbloaikh.setToolTipText(model.getLoaiKhachHang());
+        cbbloaikh.setSelectedItem(model.getLoaiKhachHang());
     }
 
     void edit() {
@@ -104,7 +102,7 @@ public class KhachHangDialog extends javax.swing.JDialog {
         try {
             dao.insert(model);
             this.fillTable();
-          this.clearForm();
+            this.clearForm();
             MsgBox.alert(this, "Thêm mới thành công");
         } catch (Exception e) {
             MsgBox.alert(this, "Thêm mới thất bại" + e);
@@ -124,7 +122,6 @@ public class KhachHangDialog extends javax.swing.JDialog {
 
     void clearForm() {
         khachhang nh = new khachhang();
-//       nh.setMaNhanVien(Auth.user.());
         this.setForm(nh);
         row = -1;
     }
@@ -347,6 +344,11 @@ public class KhachHangDialog extends javax.swing.JDialog {
         jLabel38.setText("Loại khách hàng");
 
         cbbloaikh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Khách hàng vip", "Khách hàng tiềm năng", "khách hàng mới" }));
+        cbbloaikh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbloaikhActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -457,7 +459,7 @@ public class KhachHangDialog extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Mã Khách Hàng", "Tên Khách Hàng", "Địa Chỉ ", "SDT", "Loại Khách Hàng", "Mã Nhân Viên"
+                "Mã Khách Hàng", "Tên Khách Hàng", "Địa Chỉ ", "SDT", "Loại Khách Hàng"
             }
         ));
         TblKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -566,7 +568,7 @@ public class KhachHangDialog extends javax.swing.JDialog {
 
     private void TblKhachHangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblKhachHangMousePressed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_TblKhachHangMousePressed
 
     private void TblKhachHangMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblKhachHangMouseReleased
@@ -576,6 +578,10 @@ public class KhachHangDialog extends javax.swing.JDialog {
             edit();
         }
     }//GEN-LAST:event_TblKhachHangMouseReleased
+
+    private void cbbloaikhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbloaikhActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbbloaikhActionPerformed
 
     /**
      * @param args the command line arguments

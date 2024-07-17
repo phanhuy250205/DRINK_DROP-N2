@@ -5,7 +5,9 @@
 package com.edusys.ul;
 
 import com.edusys.dao.NhanVienDao;
+import com.edusys.dao.UserDao;
 import com.edusys.entity.NhanVien;
+import com.edusys.entity.User;
 import com.edusys.utils.Auth;
 import com.edusys.utils.MsgBox;
 import com.edusys.utils.XImage;
@@ -16,7 +18,7 @@ import com.edusys.utils.XImage;
  */
 public class DangNhapJDialog extends javax.swing.JDialog {
 
-    NhanVienDao dao = new NhanVienDao();
+    UserDao dao = new UserDao();
 
     /**
      * Creates new form DangNhapJDialog
@@ -42,13 +44,14 @@ public class DangNhapJDialog extends javax.swing.JDialog {
     void dangNhap() {
         String strTenDN = txtTenDN.getText();
         String strMatKhau = new String(txtMatKhau.getPassword());
-        NhanVien nv = dao.selectById(strTenDN);
+        User nv = dao.selectById(strTenDN);
         if (nv == null) {
             MsgBox.alert(this, "Sai ten dang nhap");
         } else {
-            if (!nv.getMatKhau().equals(strMatKhau)) {
+            if (strMatKhau == null || !strMatKhau.equals(strMatKhau)) {
                 MsgBox.alert(this, "Sai mat khau");
             } else {
+                MsgBox.alert(this, "Đăng nhập thành công!");
                 Auth.user = nv;
                 this.dispose();
             }

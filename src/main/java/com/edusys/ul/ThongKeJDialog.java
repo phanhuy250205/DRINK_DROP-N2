@@ -13,6 +13,7 @@ import com.edusys.utils.XImage;
 import java.awt.HeadlessException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -30,162 +31,173 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ThongKeJDialog extends javax.swing.JFrame {
 
-    public ThongKeJDialog(JComboBox<String> cbnhanvien, JComboBox<String> cbsp, JPanel jPanel1, JPanel jPanel2, JPanel jPanel3, JScrollPane jScrollPane1, JTabbedPane ko, JTable tblsanpham) throws HeadlessException {
-        this.cbnhanvien = cbnhanvien;
-        this.cbsp = cbsp;
-        this.jPanel1 = jPanel1;
-        this.jPanel2 = jPanel2;
-        this.jPanel3 = jPanel3;
-        this.jScrollPane1 = jScrollPane1;
-        this.ko = ko;
-        this.tblsanpham = tblsanpham;
-    }
-        SanPhamDao spdao = new SanPhamDao();
-        NhanVienDao nvdao = new NhanVienDao();
-                
+//    public ThongKeJDialog(JComboBox<String> cbnhanvien, JComboBox<String> cbsp, JPanel jPanel1, JPanel jPanel2, JPanel jPanel3, JScrollPane jScrollPane1, JTabbedPane ko, JTable tblsanpham) throws HeadlessException {
+//        this.cbnhanvien = cbnhanvien;
+//        this.cbsp = cbsp;
+//        this.jPanel1 = jPanel1;
+//        this.jPanel2 = jPanel2;
+//        this.jPanel3 = jPanel3;
+//        this.jScrollPane1 = jScrollPane1;
+//        this.ko = ko;
+//        this.tblsanpham = tblsanpham;
+//    }
+    SanPhamDao spdao = new SanPhamDao();
+    NhanVienDao nvdao = new NhanVienDao();
+
     /**
      * Creates new form ThongKeJDialog
      */
     public ThongKeJDialog() {
         initComponents();
         init();
-        
+
     }
-     void init(){
+
+    void init() {
         setIconImage(XImage.getAppIcon());
         setLocationRelativeTo(null);
         setTitle("DRINK-DROP Giao Hàng");
 //        filltable();
-         fillComboBoxSanPham();
-         fillComboBoxnhanvien();
+        fillComboBoxSanPham();
+        fillComboBoxnhanvien();
 
     }
-     
-     public void fillComboBoxnhanvien() {
-        DefaultTableModel model23 = (DefaultTableModel) tblnhanvien.getModel();
-        DefaultComboBoxModel model2 = (DefaultComboBoxModel) cbnhanvien.getModel();
-        model2.removeAllElements();
-        List<NhanVien> list = nvdao.selectAll();
-        for (NhanVien nv : list) {
-            model2.addElement(nv);
-        }
-} 
- public void fillComboBoxSanPham() {
-     DefaultTableModel model23 = (DefaultTableModel) tblsanpham.getModel();
+
+    public void fillComboBoxnhanvien() {
+       DefaultComboBoxModel<String> model2 = (DefaultComboBoxModel<String>) cbnhanvien.getModel();
+    model2.removeAllElements();
+
+    List<NhanVien> list = nvdao.selectAll();
+    for (NhanVien nv : list) {
+        model2.addElement(nv.getMaNV()); // Thêm mã nhân viên vào ComboBox
+    }
+    }
+
+    public void fillComboBoxSanPham() {
+        DefaultTableModel model23 = (DefaultTableModel) tblsanpham.getModel();
         DefaultComboBoxModel model2 = (DefaultComboBoxModel) cbsp.getModel();
         model2.removeAllElements();
         List<SanPham> list = spdao.selectAll();
         for (SanPham nv : list) {
             model2.addElement(nv);
         }
-}  
-   
-  
- 
- private void filltablenhanvien() {
+    }
+
+   private void filltablenhanvien() {
     DefaultTableModel model = (DefaultTableModel) tblnhanvien.getModel();
-    model.setRowCount(0); // Xóa hết các dòng hiện tại trong bảng để chuẩn bị cho việc thêm dữ liệu mới
-    
-    // Lấy đối tượng Nhân viên từ combobox
-    NhanVien nv = (NhanVien) cbnhanvien.getSelectedItem();
-    
-    // Gọi DAO để lấy thông tin tổng lợi nhuận và các thông tin cần thiết
+    model.setRowCount(0); 
+
+    // Lấy mã nhân viên từ ComboBox
+    String maNhanVien = (String) cbnhanvien.getSelectedItem();
+
+    // Gọi DAO để lấy thông tin thống kê
     NhanVienDao nvdao = new NhanVienDao();
-    float tongLoiNhuan = nvdao.getTongTienVaLoi(nv.getTenNV());
-    List<Object[]> thongKeList = nvdao.getThongKeByNhanVien1(nv.getTenNV());
-    
+    List<Object[]> thongKeList = nvdao.getThongKeByNhanVien(maNhanVien);
+    //Định Dạng Số với Dấu Ngăn Cách Hàng Nghìnok
+       DecimalFormat decimalFormat = new DecimalFormat("#,###.000");
     // Điền dữ liệu vào bảng
-    for (Object[] row : thongKeList) {
-        // Lấy thông tin từ row của thongKeList và tính toán số tiền lợi nhuận
-        float thanhTien = (Float) row[3]; // Tổng tiền bán ra (kiểu Float)
-        float tongTienThuLai = (Float) row[4]; // Tổng tiền thu lại (kiểu Float)
+    for (Object[] row : thongKeList) {// Lấy thông tin từ row của thongKeList và tính toán số tiền lợi nhuận
+        float thanhTien = ((Number) row[3]).floatValue(); // Tổng tiền bán ra (kiểu Float)
+        float tongTienThuLai = ((Number) row[4]).floatValue(); // Tổng tiền thu lại (kiểu Float)
         float loiNhuan = thanhTien - tongTienThuLai;
-        
+
         // Đảm bảo chuyển đổi kiểu dữ liệu phù hợp trước khi đổ vào model
-        model.addRow(new Object[] {
-            row[0], 
-            row[1], 
-            row[2], 
-            row[3], 
-            row[4], 
-            row[5], 
-            row[6], 
-            row[7], 
-            row[8],
-            row[9], 
-            row[10],
-            thanhTien, 
-            tongTienThuLai, 
-            loiNhuan 
+        model.addRow(new Object[]{
+            row[0], // Thời gian
+            row[1], // Số hóa đơn
+            row[2], // Tổng số hóa đơn
+            decimalFormat.format(thanhTien),
+            decimalFormat.format(tongTienThuLai),
+            row[5], // Mã nhân viên
+            row[6], // Nhân viên lập hóa đơn
+            row[7], // Sản phẩm
+            decimalFormat.format(((Number) row[8]).floatValue()), // Giá nhập với định dạng
+            decimalFormat.format(((Number) row[9]).floatValue()), // Giá bán với định dạng
+            decimalFormat.format(((Number) row[10]).intValue()),           
+            decimalFormat.format(loiNhuan)
         });
     }
-    
-    // Hiển thị tổng lợi nhuận vào ô txttienloi
-    lblnhanvien.setText(String.valueOf(tongLoiNhuan));
-}
 
-
-
-
- 
-    void filltablesanpham() {
-    DefaultTableModel model = (DefaultTableModel) tblsanpham.getModel();
-    model.setRowCount(0);
-    
-    // Lấy đối tượng SanPham từ combobox
-    SanPham selectedSanPham = (SanPham) cbsp.getSelectedItem();
-    
-    if (selectedSanPham != null) {
-        // Lấy dữ liệu thống kê sản phẩm từ DAO dựa trên tên sản phẩm
-        List<Object[]> list = spdao.getThongKeByThoiGian(selectedSanPham.getTenSanPham());
-        
-        if (list != null && !list.isEmpty()) {
-            // Thêm dữ liệu vào bảng
-            for (Object[] row : list) {
-                model.addRow(row);
-            }
-            
-            
-            Object[] firstRow = list.get(0); // Giả sử dòng đầu tiên trong list chứa thông tin cần thiết
-            int tongSanPham = (int) firstRow[3]; // Vị trí của thông tin số lượng tổng trong list
-            int soLuongBan = (int) firstRow[4]; // Vị trí của thông tin số lượng bán trong list
-            int soLuongCon = (int) firstRow[5]; // Vị trí của thông tin số lượng còn trong list
-            
-            // Hiển thị các giá trị lên các JTextField tương ứng
-            lbltongsoluong.setText(String.valueOf(tongSanPham));
-            lblsoluongban.setText(String.valueOf(soLuongBan));
-            lblsoluongcon.setText(String.valueOf(soLuongCon));
-        } else {
-            JOptionPane.showMessageDialog(null, "Không có dữ liệu thống kê cho sản phẩm được chọn.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+    // Nếu danh sách thống kê không rỗng, đổ dữ liệu vào lblnhanvien
+    if (!thongKeList.isEmpty()) {
+        // Tính tổng lợi nhuận
+        float totalLoiNhuan = 0;
+        for (Object[] row : thongKeList) {
+            float thanhTien = ((Number) row[3]).floatValue(); // Tổng tiền bán ra (kiểu Float)
+            float tongTienThuLai = ((Number) row[4]).floatValue(); // Tổng tiền thu lại (kiểu Float)
+            totalLoiNhuan += (thanhTien - tongTienThuLai);
         }
+
+        // Đổ dữ liệu vào lblnhanvien
+        lblnhanvien.setText(("Tổng "+decimalFormat.format(totalLoiNhuan)));
     } else {
-        JOptionPane.showMessageDialog(null, "Không có sản phẩm nào được chọn.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        // Nếu không có dữ liệu, đặt giá trị mặc định cho lblnhanvien
+        lblnhanvien.setText("Tổng : 0.00");
     }
 }
 
-private void doanhthu(Date dateFrom) {
+
+
+    void filltablesanpham() {
+        DefaultTableModel model = (DefaultTableModel) tblsanpham.getModel();
+        model.setRowCount(0);
+
+        // Lấy đối tượng SanPham từ combobox
+        SanPham selectedSanPham = (SanPham) cbsp.getSelectedItem();
+
+        if (selectedSanPham != null) {
+            // Lấy dữ liệu thống kê sản phẩm từ DAO dựa trên tên sản phẩm
+            List<Object[]> list = spdao.getThongKeByThoiGian(selectedSanPham.getTenSanPham());
+
+            if (list != null && !list.isEmpty()) {
+                // Thêm dữ liệu vào bảng
+                for (Object[] row : list) {
+                    model.addRow(row);
+                }
+
+                Object[] firstRow = list.get(0); 
+                int tongSanPham = (int) firstRow[3]; 
+                int soLuongBan = (int) firstRow[4]; 
+                int soLuongCon = (int) firstRow[5]; 
+
+                // Hiển thị các giá trị lên các JTextField tương ứng
+                lbltongsoluong.setText(String.valueOf(tongSanPham));
+                lblsoluongban.setText(String.valueOf(soLuongBan));
+                lblsoluongcon.setText(String.valueOf(soLuongCon));
+            } else {
+                JOptionPane.showMessageDialog(null, "Không có dữ liệu thống kê cho sản phẩm được chọn.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Không có sản phẩm nào được chọn.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private void doanhthu(Date dateFrom, Date dateTo) {
     DefaultTableModel model = (DefaultTableModel) tbldoanhthut.getModel();
     model.setRowCount(0); // Clear the current table rows
-    
+
     // Gọi phương thức từ DAO để lấy danh sách dữ liệu doanh thu từ cơ sở dữ liệu
     ThongKedao thongKeDAO = new ThongKedao(); // Khởi tạo đối tượng DAO
-    List<Object[]> doanhThuList = thongKeDAO.getDoanhthu1(dateFrom);
+    List<Object[]> doanhThuList = thongKeDAO.getDoanhthu1(dateFrom, dateTo);
+    //Định Dạng Số với dấu Ngăn cách Hàng Ngìn
+    DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
+    
     // Thêm các dòng dữ liệu vào bảng
     for (Object[] row : doanhThuList) {
         model.addRow(row);
     }
+    
+    // Tính tổng lợi nhuận
     float tongLoi = 0;
     for (Object[] row : doanhThuList) {
         tongLoi += (float) row[2];
     }
-    lbldoanhthutong.setText(String.valueOf(tongLoi)); // Hiển thị tổng lợi nhuận vào txttienloi
+    
+    lbldoanhthutong.setText(decimalFormat.format(tongLoi)+"VND");
     if (doanhThuList.isEmpty()) {
         JOptionPane.showMessageDialog(null, "Không có dữ liệu thống kê cho ngày đã chọn.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     }
 }
-
-
-
 
 
     /**
@@ -206,6 +218,8 @@ private void doanhthu(Date dateFrom) {
         tbldoanhthut = new javax.swing.JTable();
         lbldoanhthutong = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        thongke_dateto = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
         cbnhanvien = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -224,6 +238,11 @@ private void doanhthu(Date dateFrom) {
         lblsoluongban = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        thongke_dateform.setBackground(new java.awt.Color(255, 255, 255));
+        thongke_dateform.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        thongke_dateform.setForeground(new java.awt.Color(0, 204, 204));
+        thongke_dateform.setDateFormatString("dd/MM/yyyy ");
 
         jLabel4.setText("CHỌN NGÀY ĐỂ THỐNG KÊ : ");
 
@@ -252,6 +271,14 @@ private void doanhthu(Date dateFrom) {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setText("TỔNG DOANH THU :");
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setText("Đến :");
+
+        thongke_dateto.setBackground(new java.awt.Color(255, 255, 255));
+        thongke_dateto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        thongke_dateto.setForeground(new java.awt.Color(0, 255, 255));
+        thongke_dateto.setDateFormatString("dd/MM/yyyy ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -260,34 +287,43 @@ private void doanhthu(Date dateFrom) {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(74, 74, 74)
+                        .addContainerGap()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(thongke_dateform, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(66, 66, 66)
-                        .addComponent(btnthongkedoanhthu, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 185, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(thongke_dateto, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnthongkedoanhthu, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(133, 133, 133)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbldoanhthutong, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(304, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(15, 15, 15)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(thongke_dateform, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(thongke_dateto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(thongke_dateform, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(btnthongkedoanhthu, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(7, 7, 7)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -351,7 +387,7 @@ private void doanhthu(Date dateFrom) {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(cbnhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -411,16 +447,16 @@ private void doanhthu(Date dateFrom) {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbltongsoluong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(lbltongsoluong, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblsoluongcon, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(lblsoluongcon, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblsoluongban, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(lblsoluongban, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -431,14 +467,12 @@ private void doanhthu(Date dateFrom) {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel3)
-                        .addComponent(lblsoluongcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblsoluongban, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(lbltongsoluong, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblsoluongcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblsoluongban, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbltongsoluong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -466,7 +500,7 @@ private void doanhthu(Date dateFrom) {
     private void cbspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbspActionPerformed
         // TODO add your handling code here:
         filltablesanpham();
-        
+
     }//GEN-LAST:event_cbspActionPerformed
 
     private void cbnhanvienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbnhanvienActionPerformed
@@ -475,13 +509,16 @@ private void doanhthu(Date dateFrom) {
     }//GEN-LAST:event_cbnhanvienActionPerformed
 
     private void btnthongkedoanhthuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthongkedoanhthuActionPerformed
-      java.util.Date dateFrom = thongke_dateform.getDate();
-    if (dateFrom != null) {
-        java.sql.Date sqlDateFrom = new java.sql.Date(dateFrom.getTime());
-        doanhthu(sqlDateFrom);
-    } else {
-        JOptionPane.showMessageDialog(null, "Vui lòng chọn một ngày.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-    }
+        java.util.Date dateFrom = thongke_dateform.getDate();
+        java.util.Date dateTo = thongke_dateto.getDate(); // Assuming thongke_dateto is your end date chooser
+
+        if (dateFrom != null && dateTo != null) {
+            java.sql.Date sqlDateFrom = new java.sql.Date(dateFrom.getTime());
+            java.sql.Date sqlDateTo = new java.sql.Date(dateTo.getTime());
+            doanhthu(sqlDateFrom, sqlDateTo); // Pass both dates to the doanhthu method
+        } else {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn cả hai ngày bắt đầu và kết thúc.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnthongkedoanhthuActionPerformed
 
     /**
@@ -518,7 +555,7 @@ private void doanhthu(Date dateFrom) {
             }
         });
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnthongkedoanhthu;
@@ -529,6 +566,7 @@ private void doanhthu(Date dateFrom) {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -546,5 +584,6 @@ private void doanhthu(Date dateFrom) {
     private javax.swing.JTable tblnhanvien;
     private javax.swing.JTable tblsanpham;
     private com.toedter.calendar.JDateChooser thongke_dateform;
+    private com.toedter.calendar.JDateChooser thongke_dateto;
     // End of variables declaration//GEN-END:variables
 }

@@ -83,12 +83,12 @@ public class NhanVienDao extends MainDao<NhanVien, String> {
         return selectbySql(SELECT_ALL_SQL);
     } 
 
-   public List<Object[]> getThongKeByNhanVien(String tenNV) {
-    String sql = "{call sp_GetThongKeByNhanVien(?)}";
-    String[] cols = {"ThoiGian", "SoHoaDon", "TongHD", "TongTienBanRa", "TongTienThuLai", "MaNhanVien", "NhanVienLapHoaDon", "SanPham", "GiaNhap", "GiaBan", "SoLuong"}; // Các cột trong kết quả truy vấn
-
-    return getListOfArray(sql, cols, tenNV);
-}
+//   public List<Object[]> getThongKeByNhanVien(String tenNV) {
+//    String sql = "{call sp_GetThongKeByNhanVien(?)}";
+//    String[] cols = {"ThoiGian", "SoHoaDon", "TongHD", "TongTienBanRa", "TongTienThuLai", "MaNhanVien", "NhanVienLapHoaDon", "SanPham", "GiaNhap", "GiaBan", "SoLuong"}; // Các cột trong kết quả truy vấn
+//
+//    return getListOfArray(sql, cols, tenNV);
+//}
 
 private List<Object[]> getListOfArray(String sql, String[] cols, Object... params) {
     List<Object[]> list = new ArrayList<>();
@@ -149,7 +149,7 @@ private List<Object[]> getListOfArray(String sql, String[] cols, Object... param
         return tongLoiNhuan;
     }
      
-     public List<Object[]> getThongKeByNhanVien1(String tenNhanVien) {
+     public List<Object[]> getThongKeByNhanVien(String maNhanVien) {
     List<Object[]> thongKeList = new ArrayList<>();
     
     String sql = "{call sp_GetThongKeByNhanVien(?)}";
@@ -158,12 +158,12 @@ private List<Object[]> getListOfArray(String sql, String[] cols, Object... param
         Connection conn = JdbcHelper.getConnection();
         CallableStatement cstmt = conn.prepareCall(sql);
     ) {
-        cstmt.setString(1, tenNhanVien);
+        cstmt.setString(1, maNhanVien);
         
         try (ResultSet rs = cstmt.executeQuery()) {
             while (rs.next()) {
-                Object[] row = new Object[11]; // Adjust the size based on your result set columns
-                row[0] = rs.getDate("Thoigian");
+                Object[] row = new Object[11]; // Điều chỉnh kích thước dựa trên số cột của kết quả truy vấn của bạn
+                row[0] = rs.getDate("ThoiGian");
                 row[1] = rs.getString("SoHoaDon");
                 row[2] = rs.getInt("TongHD");
                 row[3] = rs.getFloat("TongTienBanRa");
@@ -179,11 +179,12 @@ private List<Object[]> getListOfArray(String sql, String[] cols, Object... param
         }
     } catch (SQLException ex) {
         ex.printStackTrace();
-        // Handle SQL exception as needed
+        // Xử lý ngoại lệ SQL theo nhu cầu
     }
     
     return thongKeList;
 }
+
 
        
 }

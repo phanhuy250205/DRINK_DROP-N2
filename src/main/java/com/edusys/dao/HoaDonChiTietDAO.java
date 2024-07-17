@@ -6,6 +6,7 @@ package com.edusys.dao;
 
 import com.edusys.entity.HoaDonChiTiet;
 import com.edusys.utils.JdbcHelper;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

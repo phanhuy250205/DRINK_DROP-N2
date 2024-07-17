@@ -1,12 +1,13 @@
 package com.edusys.utils;
 
 import com.edusys.entity.NhanVien;
+import com.edusys.entity.User;
 
 public class Auth {
     /**
      * Đối tượng này chứa thông tin người sử dụng sau khi đăng nhập
      */
-    public static NhanVien user = null;
+    public static User user = null;
     /**
      * Xóa thông tin của người sử dụng khi có yêu cầu đăng xuất
      */

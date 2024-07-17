@@ -5,6 +5,7 @@
 package com.edusys.ul;
 
 import com.edusys.dao.NhanVienDao;
+import com.edusys.dao.UserDao;
 import com.edusys.utils.Auth;
 import com.edusys.utils.MsgBox;
 import com.edusys.utils.XImage;
@@ -14,7 +15,7 @@ import com.edusys.utils.XImage;
  * @author TranTrongDi
  */
 public class DoiMatKhauJDialog extends javax.swing.JDialog {
-    NhanVienDao dao = new NhanVienDao();
+    UserDao dao = new UserDao();
 
     /**
      * Creates new form DoiMatKhauJDialog
@@ -36,7 +37,7 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
         String matKhau = new String(txtMatKhauHienTai.getPassword());
         String matKhauMoi = new String(txtMatKhauMoi.getPassword());
         String XNMatKhau = new String(txtNhapLaiMatKhauMoi.getPassword());
-        if (!manv.equalsIgnoreCase(Auth.user.getMaNV())) {
+        if (!manv.equalsIgnoreCase(Auth.user.getTenDN())) {
             MsgBox.alert(this, "Sai tên đăng nhập");
         } else if (!matKhau.equals(Auth.user.getMatKhau())) {
             MsgBox.alert(this, "Sai mật khẩu");
