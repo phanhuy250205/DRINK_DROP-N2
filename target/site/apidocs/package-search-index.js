@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.edusys.dao"},{"l":"com.edusys.entity"},{"l":"com.edusys.ul"},{"l":"com.edusys.utils"}];updateSearchResults();
