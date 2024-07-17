@@ -13,14 +13,14 @@ import java.util.List;
  * @author TranTrongDi
  */
 public class Test {
-    //ok
-    public static void main(String[] args) {
-      NhanVienDao dao = new NhanVienDao();
-      dao.insert(new NhanVien("001", "Nguyen Van A", "password001", "82phamnhuxuong", true, "0123456789", true, "NV1", "image1"));
-      List<NhanVien> ls = dao.selectAll();
-      for (NhanVien nv : ls) {
-          System.out.println("=>"+nv.toString());
-      }
-    }
+//    //ok
+//    public static void main(String[] args) {
+//      NhanVienDao dao = new NhanVienDao();
+//      dao.insert(new NhanVien("001", "Nguyen Van A", "password001", "82phamnhuxuong", true, "0123456789", true, "NV1", "image1"));
+//      List<NhanVien> ls = dao.selectAll();
+//      for (NhanVien nv : ls) {
+//          System.out.println("=>"+nv.toString());
+//      }
+//    }
 }
 
