@@ -9,102 +9,72 @@ package com.edusys.entity;
  * @author admin
  */
 public class Giaohang {
-  private String MaGiaoHang ;
-  private String LoaiNuoc ;
-  private String MaSP ;
-  private  String DiaChiGiao ;
-  private  String TenNguoiGiao ;
-  private  String SDTNguoiGiao ;
-  private  String TenNguoiNhan;
-  private  String SDTNguoiNhan;
-  private String TinhTrang ;
+    private int Magiaohang;
+    private  String masp;
+    private  String Tensp;
+    private  int soluong;
+    private  float dongia ;
+    private  float tongtien ;
 
     public Giaohang() {
     }
 
-	public Giaohang(String MaGiaoHang, String LoaiNuoc, String MaSP, String DiaChiGiao, String TenNguoiGiao, String SDTNguoiGiao, String TenNguoiNhan, String SDTNguoiNhan, String TinhTrang) {
-		this.MaGiaoHang = MaGiaoHang;
-		this.LoaiNuoc = LoaiNuoc;
-		this.MaSP = MaSP;
-		this.DiaChiGiao = DiaChiGiao;
-		this.TenNguoiGiao = TenNguoiGiao;
-		this.SDTNguoiGiao = SDTNguoiGiao;
-		this.TenNguoiNhan = TenNguoiNhan;
-		this.SDTNguoiNhan = SDTNguoiNhan;
-		this.TinhTrang = TinhTrang;
-	}
+    public Giaohang(int Magiaohang, String masp, String Tensp, int soluong, float dongia, float tongtien) {
+        this.Magiaohang = Magiaohang;
+        this.masp = masp;
+        this.Tensp = Tensp;
+        this.soluong = soluong;
+        this.dongia = dongia;
+        this.tongtien = tongtien;
+    }
 
-	public String getMaGiaoHang() {
-		return MaGiaoHang;
-	}
+    public int getMagiaohang() {
+        return Magiaohang;
+    }
 
-	public void setMaGiaoHang(String MaGiaoHang) {
-		this.MaGiaoHang = MaGiaoHang;
-	}
+    public void setMagiaohang(int Magiaohang) {
+        this.Magiaohang = Magiaohang;
+    }
 
-	public String getLoaiNuoc() {
-		return LoaiNuoc;
-	}
+    public String getMasp() {
+        return masp;
+    }
 
-	public void setLoaiNuoc(String LoaiNuoc) {
-		this.LoaiNuoc = LoaiNuoc;
-	}
+    public void setMasp(String masp) {
+        this.masp = masp;
+    }
 
-	public String getMaSP() {
-		return MaSP;
-	}
+    public String getTensp() {
+        return Tensp;
+    }
 
-	public void setMaSP(String MaSP) {
-		this.MaSP = MaSP;
-	}
+    public void setTensp(String Tensp) {
+        this.Tensp = Tensp;
+    }
 
-	public String getDiaChiGiao() {
-		return DiaChiGiao;
-	}
+    public int getSoluong() {
+        return soluong;
+    }
 
-	public void setDiaChiGiao(String DiaChiGiao) {
-		this.DiaChiGiao = DiaChiGiao;
-	}
+    public void setSoluong(int soluong) {
+        this.soluong = soluong;
+    }
 
-	public String getTenNguoiGiao() {
-		return TenNguoiGiao;
-	}
+    public float getDongia() {
+        return dongia;
+    }
 
-	public void setTenNguoiGiao(String TenNguoiGiao) {
-		this.TenNguoiGiao = TenNguoiGiao;
-	}
+    public void setDongia(float dongia) {
+        this.dongia = dongia;
+    }
 
-	public String getSDTNguoiGiao() {
-		return SDTNguoiGiao;
-	}
+    public float getTongtien() {
+        return tongtien;
+    }
 
-	public void setSDTNguoiGiao(String SDTNguoiGiao) {
-		this.SDTNguoiGiao = SDTNguoiGiao;
-	}
-
-	public String getTenNguoiNhan() {
-		return TenNguoiNhan;
-	}
-
-	public void setTenNguoiNhan(String TenNguoiNhan) {
-		this.TenNguoiNhan = TenNguoiNhan;
-	}
-
-	public String getSDTNguoiNhan() {
-		return SDTNguoiNhan;
-	}
-
-	public void setSDTNguoiNhan(String SDTNguoiNhan) {
-		this.SDTNguoiNhan = SDTNguoiNhan;
-	}
-
-	public String getTinhTrang() {
-		return TinhTrang;
-	}
-
-	public void setTinhTrang(String TinhTrang) {
-		this.TinhTrang = TinhTrang;
-	}
+    public void setTongtien(float tongtien) {
+        this.tongtien = tongtien;
+    }
 
     
     

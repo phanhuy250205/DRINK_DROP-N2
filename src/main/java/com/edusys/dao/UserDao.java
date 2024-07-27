@@ -21,7 +21,6 @@ public class UserDao extends MainDao<User, String>{
     final String DELETE_SQL = "DELETE FROM Users Where TenDN= ?";
     final String SELECT_ALL_SQL = "SELECT * From Users";
     final String SELECT_BY_ID_SQL = "SELECT * FROM Users where TenDN = ?";
-    final String SELECT_BY_KEYWORD ="SELECT * FROM Users WHERE MatKhau LIKE ?";
     
     @Override
     public void insert(User entity) {
@@ -60,15 +59,14 @@ public class UserDao extends MainDao<User, String>{
             ResultSet rs = JdbcHelper.query(sqlString, args);
             while (rs.next()) {
                 User entity = new User();
-                
+                entity.setTenDN(rs.getString("TenDN"));
+                entity.setMatKhau(rs.getString("MatKhau"));
+                entity.setVaiTro(rs.getBoolean("VaiTro"));
                 list.add(entity);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return list;
-    }
-    public List<User> selectByKeyword(String keyword){
-        return selectBySql(SELECT_BY_KEYWORD,"%" + keyword + "%");
     }
 }

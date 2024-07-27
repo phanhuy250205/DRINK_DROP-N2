@@ -17,40 +17,51 @@ import java.util.List;
  *
  * @author admin
  */
-public class Giaohangdao extends MainDao<Giaohang , String>{
-    final String insert_SQl="INSERT into GIAOHANG(MaGiaoHang ,LoaiNuoc, MaSP, DiaChiGiao, TenNguoiGiao, SDTNguoiGiao,"
-	    + " TenNguoiNhan, SDTNguoiNhan ,TinhTrangGiaoHang) VALUES (?,?,?,?,?,?,?,?,?)";
-    final String update_SQl="UPDATE GIAOHANG set LoaiNuoc = ?, MaSP = ? ,DiaChiGiao = ?, TenNguoiGiao = ?,"
-	    + " SDTNguoiGiao = ?, TenNguoiNhan = ?,SDTNguoiNhan = ?,TinhTrangGiaoHang = ?\n" +
-"WHERE MaGiaoHang = ?";
-    final String delete_SQl="DELETE from GIAOHANG WHERE MaGiaoHang = ?";
-    final String all_SQl="select * from GIAOHANG";
-    final String select_By_id_SQl="select * from GIAOHANG WHERE MaGiaoHang = ?";
-
+public class Giaohangdao extends MainDao<Giaohang, Integer> {
+    // Câu lệnh SQL cho các thao tác CRUD
+    final String insert_SQL = "INSERT INTO Banhang (MaGiaoHang, MaSanPham, TenSanPham, SoLuong, DonGia, TongTien) VALUES (?, ?, ?, ?, ?, ?)";
+    final String update_SQL = "UPDATE Banhang SET MaSanPham = ?, TenSanPham = ?, SoLuong = ?, DonGia = ?, TongTien = ? WHERE MaGiaoHang = ?";
+    final String delete_SQL = "DELETE FROM Banhang WHERE MaGiaoHang = ?";
+    final String all_SQL = "SELECT * FROM Banhang";
+    final String select_By_id_SQL = "SELECT * FROM Banhang WHERE MaGiaoHang = ?";
 
     @Override
     public void insert(Giaohang entity) {
-        JdbcHelper.update(insert_SQl, entity.getMaGiaoHang(), entity.getLoaiNuoc(),entity.getMaSP(),entity.getDiaChiGiao(), entity.getTenNguoiGiao(),entity.getSDTNguoiGiao(),entity.getTenNguoiNhan(),entity.getSDTNguoiNhan(),entity.getTinhTrang());
+        JdbcHelper.update(insert_SQL, 
+            entity.getMagiaohang(), 
+            entity.getMasp(), 
+            entity.getTensp(), 
+            entity.getSoluong(), 
+            entity.getDongia(), 
+            entity.getTongtien()
+        );
     }
 
     @Override
     public void update(Giaohang entity) {
-      JdbcHelper.update(update_SQl, entity.getLoaiNuoc(),entity.getMaSP(),entity.getDiaChiGiao(),entity.getTenNguoiGiao(),entity.getSDTNguoiGiao(),entity.getTenNguoiNhan(),entity.getSDTNguoiNhan(),entity.getTinhTrang(),entity.getMaGiaoHang());
+        JdbcHelper.update(update_SQL, 
+            entity.getMasp(), 
+            entity.getTensp(), 
+            entity.getSoluong(), 
+            entity.getDongia(), 
+            entity.getTongtien(), 
+            entity.getMagiaohang()
+        );
     }
 
     @Override
-    public void delete(String id) {
-        JdbcHelper.update(delete_SQl, id);
+    public void delete(Integer id) {
+        JdbcHelper.update(delete_SQL, id);
     }
 
     @Override
     public List<Giaohang> selectAll() {
-       return  selectBySql(all_SQl);
+        return selectBySql(all_SQL);
     }
 
     @Override
-    public Giaohang selectById(String id) {
-         List<Giaohang> list =selectBySql(select_By_id_SQl, id);
+    public Giaohang selectById(Integer id) {
+        List<Giaohang> list = selectBySql(select_By_id_SQL, id);
         if (list.isEmpty()) {
             return null;
         }
@@ -62,23 +73,19 @@ public class Giaohangdao extends MainDao<Giaohang , String>{
         List<Giaohang> list = new ArrayList<>();
         try {
             ResultSet rs = JdbcHelper.query(sql, args);
-            while (rs.next()) {                
-                Giaohang ennity = new Giaohang();
-                ennity.setMaGiaoHang(rs.getString("MaGiaoHang"));
-                ennity.setLoaiNuoc(rs.getString("LoaiNuoc"));
-                ennity.setMaSP(rs.getString("MaSP"));
-                ennity.setDiaChiGiao(rs.getString("DiaChiGiao"));
-                ennity.setTenNguoiGiao(rs.getString("TenNguoiGiao"));
-                ennity.setSDTNguoiGiao(rs.getString("SDTNguoiGiao"));
-                ennity.setTenNguoiNhan(rs.getString("TenNguoiNhan"));
-                ennity.setSDTNguoiNhan(rs.getString("SDTNguoiNhan"));
-                ennity.setTinhTrang(rs.getString("TinhTrangGiaoHang"));
-                list.add(ennity);
+            while (rs.next()) {
+                Giaohang entity = new Giaohang();
+                entity.setMagiaohang(rs.getInt("MaGiaoHang"));
+                entity.setMasp(rs.getString("MaSanPham"));
+                entity.setTensp(rs.getString("TenSanPham"));
+                entity.setSoluong(rs.getInt("SoLuong"));
+                entity.setDongia(rs.getFloat("DonGia"));
+                entity.setTongtien(rs.getFloat("TongTien"));
+                list.add(entity);
             }
         } catch (Exception e) {
-            System.out.println("lo" + e);
+            e.printStackTrace();
         }
-         return  list;
+        return list;
     }
-    
 }

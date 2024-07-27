@@ -4,6 +4,7 @@ import com.edusys.utils.XImage;
 import com.edusys.utils.MsgBox;
 import com.edusys.dao.SanPhamDao;
 import com.edusys.entity.SanPham;
+import com.edusys.utils.Auth;
 import java.io.File;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -234,10 +235,10 @@ public class SanPhamDialog extends javax.swing.JDialog {
 
     void delete() {
         // Kiểm tra quyền trước khi xóa
-//        if (!Auth.isManager()) {
-//            MsgBox.alert(this, "Bạn không có quyền xóa chuyên đề này");
-//            return; // Ngưng hàm delete nếu không có quyền
-//        }
+        if (!Auth.isManager()) {
+            MsgBox.alert(this, "Bạn không có quyền xóa này");
+            return; // Ngưng hàm delete nếu không có quyền
+        }
 
         if (MsgBox.confirm(this, "Bạn có thực sự muốn xóa sản phẩm này ?")) {
             String maCD = txtMaSP.getText();

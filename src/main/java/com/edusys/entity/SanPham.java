@@ -99,6 +99,9 @@ public class SanPham {
         this.Hinh = Hinh;
     }
 
-    
+    @Override
+    public String toString() {
+        return tenSanPham; // Hiển thị tên sản phẩm trong JComboBox
+    }
 }
 

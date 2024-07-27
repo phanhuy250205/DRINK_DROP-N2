@@ -5,6 +5,7 @@
 package com.edusys.ul;
 
 import com.edusys.utils.Auth;
+import com.edusys.utils.MsgBox;
 import com.edusys.utils.XImage;
 
 /**
@@ -19,51 +20,90 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         init();
+        
     }
+    
     
     void init() {
         setIconImage(XImage.getAppIcon());
         setLocationRelativeTo(null);
-        setTitle("ĐĂNG NHẬP");
-        //this.openLogin();
+        setTitle("HỆ THỐNG QUẢN LÍ DRINK DROP");
+        openChao();
+        openLogin();
     }
-    
-    void openLogin(){
-        new DangNhapJDialog(this, true).setVisible(true);
+
+    void openLogin() {
+       new DangNhapDialog(this, true).setVisible(true);
     }
-    void dangXuat(){
+    void openChao(){
+        new ChaoJDialog(this, true).setVisible(true);
+    }
+    void dangXuat() {
         Auth.clear();
         openLogin();
     }
-    void openHoaDon(){
-        new HoaDonForm(this, true).setVisible(true);
+
+    void openHoaDon() {
+        if (Auth.isLogin()) {
+            new HoaDonForm(this, true).setVisible(true);
+        } else {
+            MsgBox.alert(this, "Vui lòng đăng nhập");
+        }
     }
-    
-    void openDoiTac(){
-        new DoiTacForm(this, true).setVisible(true);
+
+    void openDoiTac() {
+        if (Auth.isLogin()) {
+            new DoiTacForm(this, true).setVisible(true);
+        } else {
+            MsgBox.alert(this, "Vui lòng đăng nhập");
+        }
     }
-    
-    void openSanPham(){
-        new SanPhamDialog(this, true).setVisible(true);
+
+    void openSanPham() {
+        if (Auth.isLogin()) {
+            new SanPhamDialog(this, true).setVisible(true);
+        } else {
+            MsgBox.alert(this, "Vui lòng đăng nhập");
+        }
     }
-    
-    void openNhanVien(){
-        new NhanVienDialog(this, true).setVisible(true);
+
+    void openNhanVien() {
+        if (Auth.isLogin()) {
+            new NhanVienDialog(this, true).setVisible(true);
+        } else {
+            MsgBox.alert(this, "Vui lòng đăng nhập");
+        }
     }
-    
-    void openKhachHang(){
-        new KhachHangDialog(this, true).setVisible(true);
+
+    void openKhachHang() {
+        if (Auth.isLogin()) {
+            new KhachHangDialog(this, true).setVisible(true);
+        } else {
+            MsgBox.alert(this, "Vui lòng đăng nhập");
+        }
     }
-    
-    void openKhoHang(){
-        new KhoHangDialog(this, true).setVisible(true);
+
+    void openKhoHang() {
+        if (Auth.isLogin()) {
+            new KhoHangDialog(this, true).setVisible(true);
+        } else {
+            MsgBox.alert(this, "Vui lòng đăng nhập");
+        }
     }
-    
-    void openDangKy(){
-        new DangKyJDialog(this, true).setVisible(true);
+
+    void openDangKy() {
+         new DangKyDialog(this,true).setVisible(true);
+    }
+
+    void openDoiMk() {
+        if (Auth.isLogin()) {
+            new DoiMatKhauJDialog(this, true).setVisible(true);
+        } else {
+            MsgBox.alert(this, "Vui lòng đăng nhập");
+        }
     }
       void openthongke(){
-        new ThongKeJDialog().setVisible(true);
+//        new ThongKeJDialog().setVisible(true);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -76,33 +116,32 @@ public class Main extends javax.swing.JFrame {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnDangXuat = new javax.swing.JButton();
+        btnKetThuc = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnKhachHang = new javax.swing.JButton();
+        btnSanPham = new javax.swing.JButton();
+        btnHoaDon = new javax.swing.JButton();
+        btnNCC = new javax.swing.JButton();
+        btnNhapKho = new javax.swing.JButton();
+        btnThongKe = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
-        jButton9 = new javax.swing.JButton();
+        btnGioiThieu = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
+        mnHeThong = new javax.swing.JMenu();
+        mniDangXuat = new javax.swing.JMenuItem();
+        mniDangKy = new javax.swing.JMenuItem();
+        mniDoiMk = new javax.swing.JMenuItem();
+        mnThongKe = new javax.swing.JMenu();
+        mniHoaDOn = new javax.swing.JMenuItem();
+        mniBanHang = new javax.swing.JMenuItem();
+        mnQuanLy = new javax.swing.JMenu();
+        mniNhanVien = new javax.swing.JMenuItem();
+        mniKhachHang = new javax.swing.JMenuItem();
+        mniNhapKho = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -111,120 +150,120 @@ public class Main extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/logout.png"))); // NOI18N
-        jButton1.setText("ĐĂNG XUẤT");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setMargin(new java.awt.Insets(5, 14, 5, 14));
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnDangXuat.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnDangXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/logout.png"))); // NOI18N
+        btnDangXuat.setText("ĐĂNG XUẤT");
+        btnDangXuat.setFocusable(false);
+        btnDangXuat.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDangXuat.setMargin(new java.awt.Insets(5, 14, 5, 14));
+        btnDangXuat.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDangXuat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnDangXuatActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton1);
+        jToolBar1.add(btnDangXuat);
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/exit.png"))); // NOI18N
-        jButton2.setText("KẾT THÚC");
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnKetThuc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnKetThuc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/exit.png"))); // NOI18N
+        btnKetThuc.setText("KẾT THÚC");
+        btnKetThuc.setFocusable(false);
+        btnKetThuc.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnKetThuc.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnKetThuc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnKetThucActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton2);
+        jToolBar1.add(btnKetThuc);
         jToolBar1.add(jSeparator1);
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/khach_hang.png"))); // NOI18N
-        jButton3.setText("KHÁCH HÀNG");
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnKhachHang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/khach_hang.png"))); // NOI18N
+        btnKhachHang.setText("KHÁCH HÀNG");
+        btnKhachHang.setFocusable(false);
+        btnKhachHang.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnKhachHang.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnKhachHang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnKhachHangActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton3);
+        jToolBar1.add(btnKhachHang);
 
-        jButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/box.png"))); // NOI18N
-        jButton4.setText("SẢN PHẨM");
-        jButton4.setFocusable(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSanPham.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/box.png"))); // NOI18N
+        btnSanPham.setText("SẢN PHẨM");
+        btnSanPham.setFocusable(false);
+        btnSanPham.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSanPham.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSanPham.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnSanPhamActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton4);
+        jToolBar1.add(btnSanPham);
 
-        jButton5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/bill.png"))); // NOI18N
-        jButton5.setText("HÓA ĐƠN");
-        jButton5.setFocusable(false);
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnHoaDon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnHoaDon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/bill.png"))); // NOI18N
+        btnHoaDon.setText("HÓA ĐƠN");
+        btnHoaDon.setFocusable(false);
+        btnHoaDon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnHoaDon.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnHoaDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnHoaDonActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton5);
+        jToolBar1.add(btnHoaDon);
 
-        jButton7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/NCC.png"))); // NOI18N
-        jButton7.setText("NHÀ CUNG CẤP");
-        jButton7.setFocusable(false);
-        jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        btnNCC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnNCC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/NCC.png"))); // NOI18N
+        btnNCC.setText("NHÀ CUNG CẤP");
+        btnNCC.setFocusable(false);
+        btnNCC.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNCC.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNCC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                btnNCCActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton7);
+        jToolBar1.add(btnNCC);
 
-        jButton8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/pallet-box_kho.png"))); // NOI18N
-        jButton8.setText("KHO HÀNG");
-        jButton8.setFocusable(false);
-        jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        btnNhapKho.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnNhapKho.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/pallet-box_kho.png"))); // NOI18N
+        btnNhapKho.setText("KHO HÀNG");
+        btnNhapKho.setFocusable(false);
+        btnNhapKho.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNhapKho.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNhapKho.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                btnNhapKhoActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton8);
+        jToolBar1.add(btnNhapKho);
 
-        jButton6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/bar-graph.png"))); // NOI18N
-        jButton6.setText("THỐNG KÊ");
-        jButton6.setFocusable(false);
-        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btnThongKe.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnThongKe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/bar-graph.png"))); // NOI18N
+        btnThongKe.setText("THỐNG KÊ");
+        btnThongKe.setFocusable(false);
+        btnThongKe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnThongKe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnThongKe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnThongKeActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton6);
+        jToolBar1.add(btnThongKe);
         jToolBar1.add(jSeparator2);
 
-        jButton9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/Gioi_thieu.png"))); // NOI18N
-        jButton9.setText("GIỚI THIỆU & LIÊN HỆ");
-        jButton9.setFocusable(false);
-        jButton9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton9.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton9);
+        btnGioiThieu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnGioiThieu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/Gioi_thieu.png"))); // NOI18N
+        btnGioiThieu.setText("GIỚI THIỆU & LIÊN HỆ");
+        btnGioiThieu.setFocusable(false);
+        btnGioiThieu.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnGioiThieu.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(btnGioiThieu);
 
         jLabel1.setBackground(new java.awt.Color(102, 102, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -278,71 +317,95 @@ public class Main extends javax.swing.JFrame {
                     .addGap(10, 10, 10)))
         );
 
-        jMenu1.setText("Hệ Thống");
-        jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mnHeThong.setText("Hệ Thống");
+        mnHeThong.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/logout.png"))); // NOI18N
-        jMenuItem1.setText("Đăng Xuất");
-        jMenu1.add(jMenuItem1);
-
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/add-user.png"))); // NOI18N
-        jMenuItem2.setText("Đăng Ký");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        mniDangXuat.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        mniDangXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/logout.png"))); // NOI18N
+        mniDangXuat.setText("Đăng Xuất");
+        mniDangXuat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                mniDangXuatActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        mnHeThong.add(mniDangXuat);
 
-        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/circular.png"))); // NOI18N
-        jMenuItem3.setText("Đổi Mật Khẩu");
-        jMenu1.add(jMenuItem3);
-
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Quản Lý");
-        jMenu2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/nhan_vien.png"))); // NOI18N
-        jMenuItem4.setText("Nhân Viên");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        mniDangKy.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        mniDangKy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/add-user.png"))); // NOI18N
+        mniDangKy.setText("Đăng Ký");
+        mniDangKy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                mniDangKyActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem4);
+        mnHeThong.add(mniDangKy);
 
-        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/khach_hang.png"))); // NOI18N
-        jMenuItem5.setText("Khách Hàng");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        mniDoiMk.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        mniDoiMk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/circular.png"))); // NOI18N
+        mniDoiMk.setText("Đổi Mật Khẩu");
+        mniDoiMk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                mniDoiMkActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem5);
+        mnHeThong.add(mniDoiMk);
 
-        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/pallet-box_kho.png"))); // NOI18N
-        jMenuItem6.setText("Kho Hàng");
-        jMenu2.add(jMenuItem6);
+        jMenuBar1.add(mnHeThong);
 
-        jMenuBar1.add(jMenu2);
+        mnThongKe.setText("Thống Kê");
+        mnThongKe.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
-        jMenu3.setText("Thống Kê");
-        jMenu3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mniHoaDOn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        mniHoaDOn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/bill.png"))); // NOI18N
+        mniHoaDOn.setText("Hóa Đơn");
+        mniHoaDOn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniHoaDOnActionPerformed(evt);
+            }
+        });
+        mnThongKe.add(mniHoaDOn);
 
-        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/bill.png"))); // NOI18N
-        jMenuItem8.setText("Hóa Đơn");
-        jMenu3.add(jMenuItem8);
+        mniBanHang.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        mniBanHang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/delivery.png"))); // NOI18N
+        mniBanHang.setText("Bán Hàng");
+        mnThongKe.add(mniBanHang);
 
-        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/hdct.png"))); // NOI18N
-        jMenuItem9.setText("Hóa Đơn Chi Tiết");
-        jMenu3.add(jMenuItem9);
+        jMenuBar1.add(mnThongKe);
 
-        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/delivery.png"))); // NOI18N
-        jMenuItem11.setText("Giao Hàng");
-        jMenu3.add(jMenuItem11);
+        mnQuanLy.setText("Quản Lý");
+        mnQuanLy.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
-        jMenuBar1.add(jMenu3);
+        mniNhanVien.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+        mniNhanVien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/nhan_vien.png"))); // NOI18N
+        mniNhanVien.setText("Nhân Viên");
+        mniNhanVien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniNhanVienActionPerformed(evt);
+            }
+        });
+        mnQuanLy.add(mniNhanVien);
+
+        mniKhachHang.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+        mniKhachHang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/khach_hang.png"))); // NOI18N
+        mniKhachHang.setText("Khách Hàng");
+        mniKhachHang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniKhachHangActionPerformed(evt);
+            }
+        });
+        mnQuanLy.add(mniKhachHang);
+
+        mniNhapKho.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+        mniNhapKho.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/pallet-box_kho.png"))); // NOI18N
+        mniNhapKho.setText("Nhập Kho");
+        mniNhapKho.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniNhapKhoActionPerformed(evt);
+            }
+        });
+        mnQuanLy.add(mniNhapKho);
+
+        jMenuBar1.add(mnQuanLy);
 
         setJMenuBar(jMenuBar1);
 
@@ -361,60 +424,81 @@ public class Main extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void mniKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniKhachHangActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+        openKhachHang();
+    }//GEN-LAST:event_mniKhachHangActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void mniDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniDangKyActionPerformed
         // TODO add your handling code here:
         openDangKy();
         
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_mniDangKyActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
         // TODO add your handling code here:
         dangXuat();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnDangXuatActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnKetThucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKetThucActionPerformed
         // TODO add your handling code here:
         System.exit(0);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnKetThucActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhachHangActionPerformed
         // TODO add your handling code here:
         openKhachHang();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnKhachHangActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btnSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSanPhamActionPerformed
         // TODO add your handling code here:
         openSanPham();
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btnSanPhamActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void btnHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoaDonActionPerformed
         // TODO add your handling code here:
         openHoaDon();
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_btnHoaDonActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void btnNCCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNCCActionPerformed
         // TODO add your handling code here:
         openDoiTac();
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_btnNCCActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void btnNhapKhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhapKhoActionPerformed
         // TODO add your handling code here:
         openKhoHang();
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_btnNhapKhoActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btnThongKeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThongKeActionPerformed
         // TODO add your handling code here:
         openthongke();
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btnThongKeActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void mniNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNhanVienActionPerformed
         // TODO add your handling code here:
         openNhanVien();
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_mniNhanVienActionPerformed
+
+    private void mniNhapKhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNhapKhoActionPerformed
+        // TODO add your handling code here:
+        openKhoHang();
+    }//GEN-LAST:event_mniNhapKhoActionPerformed
+
+    private void mniDoiMkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniDoiMkActionPerformed
+        // TODO add your handling code here:
+        openDoiMk();
+    }//GEN-LAST:event_mniDoiMkActionPerformed
+
+    private void mniDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniDangXuatActionPerformed
+        // TODO add your handling code here:
+        dangXuat();
+    }//GEN-LAST:event_mniDangXuatActionPerformed
+
+    private void mniHoaDOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniHoaDOnActionPerformed
+        // TODO add your handling code here:
+        openHoaDon();
+    }//GEN-LAST:event_mniHoaDOnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -452,34 +536,35 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
+    private javax.swing.JButton btnDangXuat;
+    private javax.swing.JButton btnGioiThieu;
+    private javax.swing.JButton btnHoaDon;
+    private javax.swing.JButton btnKetThuc;
+    private javax.swing.JButton btnKhachHang;
+    private javax.swing.JButton btnNCC;
+    private javax.swing.JButton btnNhapKho;
+    private javax.swing.JButton btnSanPham;
+    private javax.swing.JButton btnThongKe;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JMenu mnHeThong;
+    private javax.swing.JMenu mnQuanLy;
+    private javax.swing.JMenu mnThongKe;
+    private javax.swing.JMenuItem mniBanHang;
+    private javax.swing.JMenuItem mniDangKy;
+    private javax.swing.JMenuItem mniDangXuat;
+    private javax.swing.JMenuItem mniDoiMk;
+    private javax.swing.JMenuItem mniHoaDOn;
+    private javax.swing.JMenuItem mniKhachHang;
+    private javax.swing.JMenuItem mniNhanVien;
+    private javax.swing.JMenuItem mniNhapKho;
     // End of variables declaration//GEN-END:variables
+
+   
 }
