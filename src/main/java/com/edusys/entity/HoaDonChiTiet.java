@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.edusys.entity;
 
 /**
@@ -9,17 +5,17 @@ package com.edusys.entity;
  * @author ADMIN
  */
 public class HoaDonChiTiet {
-    private String maHDCT;
-    private String maHD;
-    private String maSanPham;
+    private int maHDCT;         // Changed to int
+    private int maHD;           // Changed to int
+    private int maSanPham;      // Changed to int
     private int soLuong;
-    private float donGia;
-    private float thanhTien;
+    private double donGia;      // Changed to double for better precision
+    private double thanhTien;   // Changed to double for better precision
 
     public HoaDonChiTiet() {
     }
 
-    public HoaDonChiTiet(String maHDCT, String maHD, String maSanPham, int soLuong, float donGia, float thanhTien) {
+    public HoaDonChiTiet(int maHDCT, int maHD, int maSanPham, int soLuong, double donGia, double thanhTien) {
         this.maHDCT = maHDCT;
         this.maHD = maHD;
         this.maSanPham = maSanPham;
@@ -28,27 +24,27 @@ public class HoaDonChiTiet {
         this.thanhTien = thanhTien;
     }
 
-    public String getMaHDCT() {
+    public int getMaHDCT() {
         return maHDCT;
     }
 
-    public void setMaHDCT(String maHDCT) {
+    public void setMaHDCT(int maHDCT) {
         this.maHDCT = maHDCT;
     }
 
-    public String getMaHD() {
+    public int getMaHD() {
         return maHD;
     }
 
-    public void setMaHD(String maHD) {
+    public void setMaHD(int maHD) {
         this.maHD = maHD;
     }
 
-    public String getMaSanPham() {
+    public int getMaSanPham() {
         return maSanPham;
     }
 
-    public void setMaSanPham(String maSanPham) {
+    public void setMaSanPham(int maSanPham) {
         this.maSanPham = maSanPham;
     }
 
@@ -60,21 +56,19 @@ public class HoaDonChiTiet {
         this.soLuong = soLuong;
     }
 
-    public float getDonGia() {
+    public double getDonGia() {
         return donGia;
     }
 
-    public void setDonGia(float donGia) {
+    public void setDonGia(double donGia) {
         this.donGia = donGia;
     }
 
-    public float getThanhTien() {
+    public double getThanhTien() {
         return thanhTien;
     }
 
-    public void setThanhTien(float thanhTien) {
+    public void setThanhTien(double thanhTien) {
         this.thanhTien = thanhTien;
     }
-    
-    
 }

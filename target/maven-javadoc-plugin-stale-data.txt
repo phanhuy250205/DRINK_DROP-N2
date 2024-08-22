@@ -1,0 +1,54 @@
+@options
+@packages
+-classpath
+'C:/Users/admin/.m2/repository/com/microsoft/sqlserver/mssql-jdbc/12.6.2.jre11/mssql-jdbc-12.6.2.jre11.jar;C:/Users/admin/.m2/repository/com/toedter/jcalendar/1.4/jcalendar-1.4.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'21'
+-sourcepath
+'E:/Duan1_Java/DRINK_DROP-N222/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2024. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'E:/Duan1_Java/DRINK_DROP-N222/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'EduSys 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'EduSys 1.0-SNAPSHOT API'
+com.edusys.dao
+com.edusys.entity
+com.edusys.ul
+com.edusys.utils
+C:\Users\admin\.m2\repository\com\microsoft\sqlserver\mssql-jdbc\12.6.2.jre11\mssql-jdbc-12.6.2.jre11.jar = 1720424402430
+C:\Users\admin\.m2\repository\com\toedter\jcalendar\1.4\jcalendar-1.4.jar = 1720093044737
+E:\Duan1_Java\DRINK_DROP-N222\src\main\java = 1720770604396
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\allclasses-index.html = 1721028622566
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\allpackages-index.html = 1721028622570
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\copy.svg = 1721028622721
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\element-list = 1721028622000
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\help-doc.html = 1721028622711
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\index-all.html = 1721028622675
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\index.html = 1721028622469
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\link.svg = 1721028622724
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\member-search-index.js = 1721028622578
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\module-search-index.js = 1721028622572
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\overview-summary.html = 1721028622694
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\overview-tree.html = 1721028622462
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\package-search-index.js = 1721028622573
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\script.js = 1721028622720
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\search-page.js = 1721028622730
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\search.html = 1721028622686
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\search.js = 1721028622728
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\serialized-form.html = 1721028622195
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\stylesheet.css = 1721028622716
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\tag-search-index.js = 1721028622579
+E:\Duan1_Java\DRINK_DROP-N222\target\site\apidocs\type-search-index.js = 1721028622575

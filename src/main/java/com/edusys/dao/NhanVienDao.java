@@ -1,3 +1,4 @@
+
 package com.edusys.dao;
 
 import com.edusys.entity.NhanVien;
@@ -188,3 +189,5 @@ private List<Object[]> getListOfArray(String sql, String[] cols, Object... param
 
        
 }
+
+//

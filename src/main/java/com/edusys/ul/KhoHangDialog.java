@@ -1,11 +1,8 @@
 package com.edusys.ul;
 
-import com.edusys.dao.KhoHangDao;
 import com.edusys.dao.NhapKhoDao;
-import com.edusys.dao.XuatKhoDao;
-import com.edusys.entity.KhoHang;
 import com.edusys.entity.NhapKho;
-import com.edusys.entity.XuatKho;
+import com.edusys.utils.Auth;
 import com.edusys.utils.MsgBox;
 import com.edusys.utils.XImage;
 import com.edusys.utils.XDate;
@@ -16,9 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class KhoHangDialog extends javax.swing.JDialog {
 
-    KhoHangDao khDao = new KhoHangDao();
     NhapKhoDao nkDao = new NhapKhoDao();
-    XuatKhoDao xkDao = new XuatKhoDao();
     int row = -1;
     SimpleDateFormat sdf = new SimpleDateFormat();
 
@@ -31,12 +26,10 @@ public class KhoHangDialog extends javax.swing.JDialog {
     void init() {
         setIconImage(XImage.getAppIcon());
         setLocationRelativeTo(null);
-        setTitle("QUẢN LÝ KHO HÀNG");
+        setTitle("QUẢN LÝ NHẬP KHO");
         fillTableNhapKho();
         updateStatus();
     }
-
-    
 
     void fillTableNhapKho() {
         DefaultTableModel model = (DefaultTableModel) tblNhapKho.getModel();
@@ -77,7 +70,7 @@ public class KhoHangDialog extends javax.swing.JDialog {
     NhapKho getForm() {
         NhapKho nk = new NhapKho();
         nk.setMaPhieuNhap(txtMaPhieuNhap.getText());
-        nk.setMaNguoiNhap(txtMaNV.getText());
+        nk.setMaNguoiNhap(Auth.user.getMaNV());
         nk.setMaNhaCungCap(txtNCC.getText());
         nk.setNgayNhap(XDate.toDate(txtNgayNhap.getText(), "dd/MM/yyyy"));
         nk.setTenSanPham(txtTenSanPham.getText());
@@ -90,13 +83,12 @@ public class KhoHangDialog extends javax.swing.JDialog {
 
     void edit() {
         try {
-            // Lấy giá trị tại hàng và cột xác định và đảm bảo nó là String
             String maPN = tblNhapKho.getValueAt(this.row, 0).toString();
-            NhapKho nk = nkDao.selectById(maPN); // Đảm bảo phương thức selectById chấp nhận kiểu Integer
+            NhapKho nk = nkDao.selectById(maPN);
             if (nk != null) {
                 setForm(nk);
                 updateStatus();
-                tabs.setSelectedIndex(2);
+                tabs.setSelectedIndex(0);
             }
         } catch (Exception e) {
             MsgBox.alert(this, "Lỗi truy vấn dữ liệu: " + e.getMessage());
@@ -112,23 +104,49 @@ public class KhoHangDialog extends javax.swing.JDialog {
 
     void clearForm() {
         NhapKho nk = new NhapKho();
-        nk.setMaPhieuNhap("");
-        nk.setMaNguoiNhap("");
-        nk.setMaNhaCungCap("");
+        nk.setMaNguoiNhap(Auth.user.getMaNV());
         nk.setNgayNhap(new Date());
-        nk.setTenSanPham("");
-        nk.setSoLuong(0);
-        nk.getTienNhap();
-        nk.setLoaiSanPham("");
-        nk.setMaSanPham("");
         this.setForm(nk);
         row = -1;
-        updateStatus();
+    }
+
+    boolean validateForm(NhapKho model) {
+        if (model.getMaPhieuNhap() == null || model.getMaPhieuNhap().trim().isEmpty()) {
+            MsgBox.alert(this, "Mã phiếu nhập không được trống");
+            return false;
+        }
+        if (model.getMaNhaCungCap() == null || model.getMaNhaCungCap().trim().isEmpty()) {
+            MsgBox.alert(this, "Mã NCC không được trống");
+            return false;
+        }
+        if (model.getSoLuong() <= 0) {
+            MsgBox.alert(this, "Số lượng phải lớn hơn 0");
+            return false;
+        }
+        if (model.getLoaiSanPham() == null || model.getLoaiSanPham().trim().isEmpty()) {
+            MsgBox.alert(this, "Loại sản phẩm không được để trống");
+            return false;
+        }
+        if (model.getTenSanPham() == null || model.getTenSanPham().trim().isEmpty()) {
+            MsgBox.alert(this, "Tên sản phẩm không được để trống");
+            return false;
+        }
+        if (model.getTienNhap() <= 0) {
+            MsgBox.alert(this, "Tổng tiền nhập phải lớn hơn 0");
+            return false;
+        }
+        if (model.getMaSanPham() == null || model.getMaSanPham().trim().isEmpty()) {
+            MsgBox.alert(this, "Mã sản phẩm không được để trống");
+            return false;
+        }
+        return true;
     }
 
     void insert() {
         NhapKho model = getForm();
-
+        if (!validateForm(model)) {
+            return;
+        }
         try {
             nkDao.insert(model);
             this.fillTableNhapKho();
@@ -151,8 +169,26 @@ public class KhoHangDialog extends javax.swing.JDialog {
         }
     }
 
-   
+    void delete() {
+        // Kiểm tra quyền trước khi xóa
+        if (!Auth.isManager()) {
+            MsgBox.alert(this, "Bạn không có quyền xóa sản phẩm này");
+            return; // Ngưng hàm delete nếu không có quyền
+        }
 
+        if (MsgBox.confirm(this, "Bạn có thực sự muốn xóa sản phẩm này ?")) {
+            String maCD = txtMaPhieuNhap.getText();
+            try {
+                nkDao.delete(maCD);
+                this.fillTableNhapKho();
+                this.clearForm();
+                MsgBox.alert(this, "Xóa thành công");
+            } catch (Exception e) {
+
+                MsgBox.alert(this, "Xóa thất bại: " + e.getMessage());
+            }
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -165,6 +201,8 @@ public class KhoHangDialog extends javax.swing.JDialog {
 
         jLabel12 = new javax.swing.JLabel();
         btnThemVaoKho1 = new javax.swing.JButton();
+        txtMaNV = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
         tabs = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -175,8 +213,6 @@ public class KhoHangDialog extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtSoLuong = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txtMaNV = new javax.swing.JTextField();
         txtNgayNhap = new javax.swing.JTextField();
         txtTienNhap = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -190,6 +226,7 @@ public class KhoHangDialog extends javax.swing.JDialog {
         btnThem = new javax.swing.JButton();
         jLabel20 = new javax.swing.JLabel();
         txtTenSanPham = new javax.swing.JTextField();
+        btnXoa = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblNhapKho = new javax.swing.JTable();
 
@@ -202,11 +239,13 @@ public class KhoHangDialog extends javax.swing.JDialog {
             }
         });
 
+        jLabel6.setText("Mã người nhập");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tabs.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        jPanel2.setBackground(new java.awt.Color(0, 153, 255));
+        jPanel2.setBackground(new java.awt.Color(51, 153, 255));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -230,8 +269,6 @@ public class KhoHangDialog extends javax.swing.JDialog {
         jLabel4.setText("Mã NCC:");
 
         jLabel5.setText("Số Lượng:");
-
-        jLabel6.setText("Mã Nhân Viên");
 
         jLabel7.setText("Ngày Nhập");
 
@@ -267,6 +304,14 @@ public class KhoHangDialog extends javax.swing.JDialog {
 
         jLabel20.setText("Tên Sản Phẩm:");
 
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/delete.png"))); // NOI18N
+        btnXoa.setText("Xóa");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -278,8 +323,6 @@ public class KhoHangDialog extends javax.swing.JDialog {
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 287, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel6)
-                            .addComponent(txtMaNV)
                             .addComponent(txtNgayNhap, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
                             .addComponent(txtTienNhap, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
                             .addComponent(jLabel7)
@@ -288,27 +331,29 @@ public class KhoHangDialog extends javax.swing.JDialog {
                             .addComponent(txtMaSanPham))
                         .addGap(32, 32, 32))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5)
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(46, 46, 46)
-                                        .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(55, 55, 55)
-                                .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel20)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtTenSanPham, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
-                                .addComponent(txtLoaiSanPham, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtSoLuong, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtNCC, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtMaPhieuNhap, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(jLabel3)
+                        .addGap(282, 282, 282)
+                        .addComponent(jLabel20))
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtLoaiSanPham, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSoLuong, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNCC, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMaPhieuNhap, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(56, 56, 56)
+                        .addComponent(txtTenSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -316,11 +361,11 @@ public class KhoHangDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel20))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtMaNV, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-                    .addComponent(txtMaPhieuNhap))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtMaPhieuNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTenSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -345,16 +390,13 @@ public class KhoHangDialog extends javax.swing.JDialog {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtLoaiSanPham, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                     .addComponent(txtMaSanPham))
-                .addGap(4, 4, 4)
-                .addComponent(jLabel20)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTenSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem)
-                    .addComponent(btnLamMoi)
-                    .addComponent(btnSua))
-                .addGap(55, 55, 55))
+                    .addComponent(btnSua)
+                    .addComponent(btnXoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnLamMoi))
+                .addGap(117, 117, 117))
         );
 
         tblNhapKho.setModel(new javax.swing.table.DefaultTableModel(
@@ -385,9 +427,10 @@ public class KhoHangDialog extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabs.addTab("NHẬP KHO", jPanel2);
@@ -444,6 +487,11 @@ public class KhoHangDialog extends javax.swing.JDialog {
 //        addNhapKhoVaoKho();
     }//GEN-LAST:event_btnThemVaoKho1ActionPerformed
 
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        delete();
+    }//GEN-LAST:event_btnXoaActionPerformed
+
     /**
      *
      * @param args
@@ -494,6 +542,7 @@ public class KhoHangDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnThemVaoKho1;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;

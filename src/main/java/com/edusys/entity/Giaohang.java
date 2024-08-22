@@ -1,81 +1,86 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.edusys.entity;
 
 /**
- *
- * @author admin
+ * Represents a delivery order with additional product and customer details.
  */
 public class Giaohang {
-    private int Magiaohang;
-    private  String masp;
-    private  String Tensp;
-    private  int soluong;
-    private  float dongia ;
-    private  float tongtien ;
+    private String tenKhachHang; // Tên khách hàng
+    private String tenSanPham;   // Tên sản phẩm
+    private String maNhanVien;      // Mã nhân viên
+    private String maSanPham;  
+    private  int  Soluong;
+    private float donGia;        // Đơn giá
+    private float tongTien;      // Tổng tiền
+
+    // Default constructor
 
     public Giaohang() {
     }
 
-    public Giaohang(int Magiaohang, String masp, String Tensp, int soluong, float dongia, float tongtien) {
-        this.Magiaohang = Magiaohang;
-        this.masp = masp;
-        this.Tensp = Tensp;
-        this.soluong = soluong;
-        this.dongia = dongia;
-        this.tongtien = tongtien;
+    public Giaohang(String tenKhachHang, String tenSanPham, String maNhanVien, String maSanPham, int Soluong, float donGia, float tongTien) {
+        this.tenKhachHang = tenKhachHang;
+        this.tenSanPham = tenSanPham;
+        this.maNhanVien = maNhanVien;
+        this.maSanPham = maSanPham;
+        this.Soluong = Soluong;
+        this.donGia = donGia;
+        this.tongTien = tongTien;
     }
 
-    public int getMagiaohang() {
-        return Magiaohang;
+    public String getTenKhachHang() {
+        return tenKhachHang;
     }
 
-    public void setMagiaohang(int Magiaohang) {
-        this.Magiaohang = Magiaohang;
+    public void setTenKhachHang(String tenKhachHang) {
+        this.tenKhachHang = tenKhachHang;
     }
 
-    public String getMasp() {
-        return masp;
+    public String getTenSanPham() {
+        return tenSanPham;
     }
 
-    public void setMasp(String masp) {
-        this.masp = masp;
+    public void setTenSanPham(String tenSanPham) {
+        this.tenSanPham = tenSanPham;
     }
 
-    public String getTensp() {
-        return Tensp;
+    public String getMaNhanVien() {
+        return maNhanVien;
     }
 
-    public void setTensp(String Tensp) {
-        this.Tensp = Tensp;
+    public void setMaNhanVien(String maNhanVien) {
+        this.maNhanVien = maNhanVien;
+    }
+
+    public String getMaSanPham() {
+        return maSanPham;
+    }
+
+    public void setMaSanPham(String maSanPham) {
+        this.maSanPham = maSanPham;
     }
 
     public int getSoluong() {
-        return soluong;
+        return Soluong;
     }
 
-    public void setSoluong(int soluong) {
-        this.soluong = soluong;
+    public void setSoluong(int Soluong) {
+        this.Soluong = Soluong;
     }
 
-    public float getDongia() {
-        return dongia;
+    public float getDonGia() {
+        return donGia;
     }
 
-    public void setDongia(float dongia) {
-        this.dongia = dongia;
+    public void setDonGia(float donGia) {
+        this.donGia = donGia;
     }
 
-    public float getTongtien() {
-        return tongtien;
+    public float getTongTien() {
+        return tongTien;
     }
 
-    public void setTongtien(float tongtien) {
-        this.tongtien = tongtien;
+    public void setTongTien(float tongTien) {
+        this.tongTien = tongTien;
     }
-
-    
     
 }

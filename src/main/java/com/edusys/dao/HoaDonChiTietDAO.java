@@ -1,40 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.edusys.dao;
 
 import com.edusys.entity.HoaDonChiTiet;
 import com.edusys.utils.JdbcHelper;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author ADMIN
- */
-public class HoaDonChiTietDAO extends MainDao<HoaDonChiTiet, String>{
+public class HoaDonChiTietDAO extends MainDao<HoaDonChiTiet, Integer> {
+    final String INSERT_SQL = "INSERT INTO HoaDonChiTiet(MaHDCT, MaHoaDon, MaSanPham, SoLuong, DonGia, ThanhTien) VALUES(?, ?, ?, ?, ?, ?)";
+    final String UPDATE_SQL = "UPDATE HoaDonChiTiet SET MaHoaDon = ?, MaSanPham = ?, SoLuong = ?, DonGia = ?, ThanhTien = ? WHERE MaHDCT = ?";
+    final String DELETE_SQL = "DELETE FROM HoaDonChiTiet WHERE MaHDCT = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM HoaDonChiTiet";
     final String SELECT_BY_ID_SQL = "SELECT * FROM HoaDonChiTiet WHERE MaHDCT = ?";
-    final String SELECT_BY_MAHD = "SELECT * FROM HoaDonChiTiet WHERE MaHD = ?";
-        
-    
+    final String SELECT_BY_MAHD = "SELECT * FROM HoaDonChiTiet WHERE MaHoaDon = ?";
+
     @Override
     public void insert(HoaDonChiTiet entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        JdbcHelper.update(INSERT_SQL, entity.getMaHDCT(), entity.getMaHD(), entity.getMaSanPham(), entity.getSoLuong(), entity.getDonGia(), entity.getThanhTien());
     }
 
     @Override
     public void update(HoaDonChiTiet entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        JdbcHelper.update(UPDATE_SQL, entity.getMaHD(), entity.getMaSanPham(), entity.getSoLuong(), entity.getDonGia(), entity.getThanhTien(), entity.getMaHDCT());
     }
 
     @Override
-    public void delete(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void delete(Integer id) {
+        JdbcHelper.update(DELETE_SQL, id);
     }
 
     @Override
@@ -43,9 +36,9 @@ public class HoaDonChiTietDAO extends MainDao<HoaDonChiTiet, String>{
     }
 
     @Override
-    public HoaDonChiTiet selectById(String id) {
+    public HoaDonChiTiet selectById(Integer id) {
         List<HoaDonChiTiet> list = selectBySql(SELECT_BY_ID_SQL, id);
-        if(list.isEmpty()){
+        if (list.isEmpty()) {
             return null;
         }
         return list.get(0);
@@ -54,21 +47,20 @@ public class HoaDonChiTietDAO extends MainDao<HoaDonChiTiet, String>{
     @Override
     public List<HoaDonChiTiet> selectBySql(String sql, Object... args) {
         List<HoaDonChiTiet> list = new ArrayList<>();
-        try{
+        try {
             ResultSet rs = JdbcHelper.query(sql, args);
             try {
-                rs = JdbcHelper.query(sql, args);
-                while(rs.next()){
+                while (rs.next()) {
                     HoaDonChiTiet hdct = new HoaDonChiTiet();
-                    hdct.setMaHDCT(rs.getString("MaHDCT"));
-                    hdct.setMaHD(rs.getString("MaHoaDon"));
-                    hdct.setMaSanPham(rs.getString("MaSanPham"));
+                    hdct.setMaHDCT(rs.getInt("MaHDCT")); // Changed to int
+                    hdct.setMaHD(rs.getInt("MaHoaDon")); // Changed to int
+                    hdct.setMaSanPham(rs.getInt("MaSanPham")); // Changed to int
                     hdct.setSoLuong(rs.getInt("SoLuong"));
-                    hdct.setDonGia(rs.getFloat("DonGia"));
-                    hdct.setThanhTien(rs.getFloat("ThanhTien"));
+                    hdct.setDonGia(rs.getDouble("DonGia")); // Changed to double
+                    hdct.setThanhTien(rs.getDouble("ThanhTien")); // Changed to double
                     list.add(hdct);
                 }
-            }finally{
+            } finally {
                 rs.getStatement().getConnection().close();
             }
         } catch (SQLException ex) {
@@ -76,27 +68,8 @@ public class HoaDonChiTietDAO extends MainDao<HoaDonChiTiet, String>{
         }
         return list;
     }
-    
-    public List<HoaDonChiTiet> selectByMaHD(String maHoaDon, Object ... args) throws SQLException {
-    List<HoaDonChiTiet> list = new ArrayList<>();
-    String sql = "SELECT * FROM HoaDonChiTiet WHERE MaHoaDon = ?";
-    try(PreparedStatement ps = JdbcHelper.getStmt(sql, args)){
-        ps.setString(1, maHoaDon);
 
-        try (ResultSet rs = ps.executeQuery()) {
-            while(rs.next()){
-                HoaDonChiTiet hdct = new HoaDonChiTiet();
-                hdct.setMaHDCT(rs.getString("MaHDCT"));
-                hdct.setMaHD(rs.getString("MaHoaDon"));
-                hdct.setMaSanPham(rs.getString("MaSanPham"));
-                hdct.setSoLuong(rs.getInt("SoLuong"));
-                hdct.setDonGia(rs.getFloat("DonGia"));
-                hdct.setThanhTien(rs.getFloat("ThanhTien"));
-                list.add(hdct);
-            }
-        }
+    public List<HoaDonChiTiet> selectByMaHD(Integer maHoaDon) {
+        return selectBySql(SELECT_BY_MAHD, maHoaDon);
     }
-    return list;
-}
-    
 }

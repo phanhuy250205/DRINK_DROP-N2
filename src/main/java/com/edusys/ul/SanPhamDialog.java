@@ -105,18 +105,27 @@ public class SanPhamDialog extends javax.swing.JDialog {
     }
 
     SanPham getForm() {
-        SanPham sp = new SanPham();
-        sp.setMaSanPham(txtMaSP.getText());
-        sp.setTenSanPham(txtTenSP.getText());
-        sp.setSoLuong(Integer.parseInt(txtSoLuong.getText()));
-        sp.setGiaNhap(Float.parseFloat(txtGiaNhap.getText()));
-        sp.setGiaBan(Float.parseFloat(txtGiaBan.getText()));
-        sp.setLoaiSanPham(cboLoaiSP.getSelectedItem().toString());
-        sp.setMoTa(txtMota.getText());
-        sp.setTongSanPham(Integer.parseInt(txtTongSanPham.getText()));
-        sp.setHinh(lblHinhAnh.getToolTipText());
-        return sp;
+    SanPham sp = new SanPham();
+    sp.setMaSanPham(txtMaSP.getText());
+    sp.setTenSanPham(txtTenSP.getText());
+    sp.setSoLuong(Integer.parseInt(txtSoLuong.getText()));
+    sp.setGiaNhap(Float.parseFloat(txtGiaNhap.getText()));
+    sp.setGiaBan(Float.parseFloat(txtGiaBan.getText()));
+
+    // Chuyển đổi giá trị được chọn từ JComboBox thành số nguyên
+    try {
+        sp.setLoaiSanPham(Integer.parseInt(cboLoaiSP.getSelectedItem().toString()));
+    } catch (NumberFormatException e) {
+        // Xử lý ngoại lệ nếu giá trị không thể chuyển đổi thành số nguyên
+        System.out.println("Giá trị loại sản phẩm không hợp lệ: " + e.getMessage());
     }
+
+    sp.setMoTa(txtMota.getText());
+    sp.setTongSanPham(Integer.parseInt(txtTongSanPham.getText()));
+    sp.setHinh(lblHinhAnh.getToolTipText());
+    return sp;
+}
+
 
     void edit() {
         try {
@@ -155,7 +164,7 @@ public class SanPhamDialog extends javax.swing.JDialog {
         sp.setSoLuong(0);
         sp.setGiaNhap(0);
         sp.setGiaBan(0);
-        sp.setLoaiSanPham("");
+        sp.setLoaiSanPham(0);
         sp.setMoTa("");
         sp.setTongSanPham(0);
         sp.setHinh("");        // Khởi tạo với chuỗi trống để tránh null

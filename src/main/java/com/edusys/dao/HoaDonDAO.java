@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.edusys.dao;
 
-import com.edusys.entity.DoiTac;
 import com.edusys.entity.HoaDon;
 import com.edusys.utils.JdbcHelper;
 import java.sql.ResultSet;
@@ -12,30 +7,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author ADMIN
- */
-public class HoaDonDAO extends MainDao<HoaDon, String>{
-    final String INSERT_SQL = "INSERT INTO HoaDon(MaHoaDon, KhachHang, DiaChiKhach, SDTKhach, TongTien, ThoiGian) VALUES(?, ?, ?, ?, ?,?)";
-    final String UPDATE_SQL = "UPDATE HoaDon SET KhachHang = ?, DiaChiKhach = ?, SDTKhach = ?, TongTien = ?, ThoiGian = ? WHERE MaHoaDon = ?";
+public class HoaDonDAO extends MainDao<HoaDon, Integer> {
+    final String INSERT_SQL = "INSERT INTO HoaDon(MaHoaDon, MaKhachHang, TongTien, ThoiGian, MaNhanVien) VALUES(?, ?, ?, ?, ?)";
+    final String UPDATE_SQL = "UPDATE HoaDon SET MaKhachHang = ?, TongTien = ?, ThoiGian = ?, MaNhanVien = ? WHERE MaHoaDon = ?";
     final String DELETE_SQL = "DELETE FROM HoaDon WHERE MaHoaDon = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM HoaDon";
     final String SELECT_BY_ID_SQL = "SELECT * FROM HoaDon WHERE MaHoaDon = ?";
     final String SELECT_BY_KEYWORD_SQL = "SELECT * FROM HoaDon WHERE MaHoaDon LIKE ?";
-    
+
     @Override
     public void insert(HoaDon entity) {
-        JdbcHelper.update(INSERT_SQL, entity.getMaHD(), entity.getKhachHang(), entity.getDiaChiKhach(), entity.getSDTKhach(), entity.getTongTien(), entity.getThoiGian());
+        JdbcHelper.update(INSERT_SQL, entity.getMaHD(), entity.getMaKhachHang(), entity.getTongTien(), entity.getThoiGian(), entity.getMaNhanVien());
     }
 
     @Override
     public void update(HoaDon entity) {
-        JdbcHelper.update(UPDATE_SQL, entity.getKhachHang(), entity.getDiaChiKhach(), entity.getSDTKhach(), entity.getTongTien(), entity.getThoiGian(), entity.getMaHD());
+        JdbcHelper.update(UPDATE_SQL, entity.getMaKhachHang(), entity.getTongTien(), entity.getThoiGian(), entity.getMaNhanVien(), entity.getMaHD());
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Integer id) {
         JdbcHelper.update(DELETE_SQL, id);
     }
 
@@ -45,9 +36,9 @@ public class HoaDonDAO extends MainDao<HoaDon, String>{
     }
 
     @Override
-    public HoaDon selectById(String id) {
+    public HoaDon selectById(Integer id) {
         List<HoaDon> list = selectBySql(SELECT_BY_ID_SQL, id);
-        if(list.isEmpty()){
+        if (list.isEmpty()) {
             return null;
         }
         return list.get(0);
@@ -59,19 +50,16 @@ public class HoaDonDAO extends MainDao<HoaDon, String>{
         try {
             ResultSet rs = JdbcHelper.query(sql, args);
             try {
-                rs = JdbcHelper.query(sql, args);
-                while(rs.next()){
+                while (rs.next()) {
                     HoaDon hd = new HoaDon();
-                    hd.setMaHD(rs.getString("MaHoaDon"));
-                    hd.setKhachHang(rs.getString("KhachHang"));
-                    hd.setDiaChiKhach(rs.getString("DiaChiKhach"));
-                    hd.setSDTKhach(rs.getString("SDTKhach"));
-                    hd.setTongTien(rs.getFloat("TongTien"));
-                    hd.setThoiGian(rs.getDate("ThoiGian"));
-                    hd.setMaNhanVien("MaNhanVien");
+                    hd.setMaHD(rs.getInt("MaHoaDon"));
+                    hd.setMaKhachHang(rs.getInt("MaKhachHang"));
+                    hd.setTongTien(rs.getDouble("TongTien"));
+                    hd.setThoiGian(rs.getTimestamp("ThoiGian"));
+                    hd.setMaNhanVien(rs.getInt("MaNhanVien"));
                     list.add(hd);
                 }
-            }finally{
+            } finally {
                 rs.getStatement().getConnection().close();
             }
         } catch (SQLException ex) {
@@ -79,8 +67,8 @@ public class HoaDonDAO extends MainDao<HoaDon, String>{
         }
         return list;
     }
+
     public List<HoaDon> selectByKeyword(String keyword) {
-        return selectBySql(SELECT_BY_KEYWORD_SQL,"%" + keyword + "%");
+        return selectBySql(SELECT_BY_KEYWORD_SQL, "%" + keyword + "%");
     }
-    
 }

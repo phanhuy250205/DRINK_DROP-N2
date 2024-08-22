@@ -1,51 +1,47 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.edusys.dao;
 
-//import Edusys.ennity.Giaohang;
-//import Edusys.untils.JDBChelper;
-import com.edusys.dao.MainDao;
 import com.edusys.entity.Giaohang;
 import com.edusys.utils.JdbcHelper;
+import static com.edusys.utils.JdbcHelper.getConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author admin
- */
 public class Giaohangdao extends MainDao<Giaohang, Integer> {
-    // Câu lệnh SQL cho các thao tác CRUD
-    final String insert_SQL = "INSERT INTO Banhang (MaGiaoHang, MaSanPham, TenSanPham, SoLuong, DonGia, TongTien) VALUES (?, ?, ?, ?, ?, ?)";
-    final String update_SQL = "UPDATE Banhang SET MaSanPham = ?, TenSanPham = ?, SoLuong = ?, DonGia = ?, TongTien = ? WHERE MaGiaoHang = ?";
-    final String delete_SQL = "DELETE FROM Banhang WHERE MaGiaoHang = ?";
-    final String all_SQL = "SELECT * FROM Banhang";
-    final String select_By_id_SQL = "SELECT * FROM Banhang WHERE MaGiaoHang = ?";
+    // SQL statements for CRUD operations
+    final String insert_SQL = "INSERT INTO ProducBanHang (TenKhachHang, TenSanPham, MaNhanVien, MaSanPham, SoLuong, DonGia, TongTien) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    final String update_SQL = "UPDATE ProducBanHang SET TenKhachHang = ?, TenSanPham = ?, MaNhanVien = ?, MaSanPham = ?, SoLuong = ?, DonGia = ?, TongTien = ? WHERE MaGiaoHang = ?";
+    final String delete_SQL = "DELETE FROM ProducBanHang WHERE MaGiaoHang = ?";
+    final String all_SQL = "SELECT * FROM ProducBanHang";
+    final String select_By_id_SQL = "SELECT * FROM ProducBanHang WHERE MaGiaoHang = ?";
 
     @Override
     public void insert(Giaohang entity) {
         JdbcHelper.update(insert_SQL, 
-            entity.getMagiaohang(), 
-            entity.getMasp(), 
-            entity.getTensp(), 
-            entity.getSoluong(), 
-            entity.getDongia(), 
-            entity.getTongtien()
+            entity.getTenKhachHang(),
+            entity.getTenSanPham(),
+            entity.getMaNhanVien(),
+            entity.getMaSanPham(),
+            entity.getSoluong(), // Đã sửa lại thành getSoluong()
+            entity.getDonGia(),
+            entity.getTongTien()
         );
     }
 
     @Override
     public void update(Giaohang entity) {
         JdbcHelper.update(update_SQL, 
-            entity.getMasp(), 
-            entity.getTensp(), 
-            entity.getSoluong(), 
-            entity.getDongia(), 
-            entity.getTongtien(), 
-            entity.getMagiaohang()
+            entity.getTenKhachHang(),
+            entity.getTenSanPham(),
+            entity.getMaNhanVien(),
+            entity.getMaSanPham(),
+            entity.getSoluong(), // Đã sửa lại thành getSoluong()
+            entity.getDonGia(),
+            entity.getTongTien()
+            // Đã thêm MaGiaoHang vào câu lệnh UPDATE
         );
     }
 
@@ -75,12 +71,16 @@ public class Giaohangdao extends MainDao<Giaohang, Integer> {
             ResultSet rs = JdbcHelper.query(sql, args);
             while (rs.next()) {
                 Giaohang entity = new Giaohang();
-                entity.setMagiaohang(rs.getInt("MaGiaoHang"));
-                entity.setMasp(rs.getString("MaSanPham"));
-                entity.setTensp(rs.getString("TenSanPham"));
-                entity.setSoluong(rs.getInt("SoLuong"));
-                entity.setDongia(rs.getFloat("DonGia"));
-                entity.setTongtien(rs.getFloat("TongTien"));
+                entity.setTenKhachHang(rs.getString("TenKhachHang"));
+                entity.setTenSanPham(rs.getString("TenSanPham"));
+                entity.setMaNhanVien(rs.getString("MaNhanVien")); // Kiểm tra kiểu dữ liệu
+                entity.setMaSanPham(rs.getString("MaSanPham")); 
+                entity.setSoluong(rs.getInt("SoLuong")); // Sửa lại để sử dụng getInt
+                entity.setDonGia(rs.getFloat("DonGia"));
+                entity.setTongTien(rs.getFloat("TongTien"));
+                // Assuming `Giaohang` has a field `MaGiaoHang` for the unique identifier
+                // entity.setMaGiaoHang(rs.getInt("MaGiaoHang")); // Thêm nếu cần thiết
+                
                 list.add(entity);
             }
         } catch (Exception e) {
@@ -88,4 +88,50 @@ public class Giaohangdao extends MainDao<Giaohang, Integer> {
         }
         return list;
     }
+    public Giaohang selectByCustomerName(String tenKhachHang) {
+        Giaohang model = null;
+        String sql = "SELECT * FROM ProducBanHang WHERE TenKhachHang = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, tenKhachHang);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    model = new Giaohang();
+                    model.setTenKhachHang(rs.getString("TenKhachHang"));
+                    model.setTenSanPham(rs.getString("TenSanPham"));
+                    model.setMaNhanVien(rs.getString("MaNhanVien"));
+                    model.setMaSanPham(rs.getString("MaSanPham"));
+                    model.setSoluong(rs.getInt("SoLuong"));
+                    model.setDonGia(rs.getFloat("DonGia"));
+                    model.setTongTien(rs.getFloat("TongTien"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return model;
+    }
+    public Giaohang selectByMaSanPham(String maSanPham) {
+    // Câu lệnh SQL để lấy thông tin sản phẩm theo mã sản phẩm
+    String sql = "SELECT * FROM ProducBanHang WHERE MaSanPham = ?";
+    try (Connection conn = getConnection(); 
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, maSanPham);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            Giaohang model = new Giaohang();
+            model.setTenKhachHang(rs.getString("TenKhachHang"));
+            model.setTenSanPham(rs.getString("TenSanPham"));
+            model.setMaNhanVien(rs.getString("MaNhanVien"));
+            model.setMaSanPham(rs.getString("MaSanPham"));
+            model.setSoluong(rs.getInt("SoLuong"));
+            model.setDonGia(rs.getFloat("DonGia"));
+            model.setTongTien(rs.getFloat("TongTien"));
+            return model;
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return null;
+}
 }

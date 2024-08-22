@@ -1,4 +1,5 @@
 
+
 package com.edusys.entity;
 
 public class SanPham {
@@ -7,7 +8,7 @@ public class SanPham {
     private int soLuong;
     private float giaNhap;
     private float giaBan;
-    private String loaiSanPham;
+    private int loaiSanPham;
     private String moTa;
     private int tongSanPham;
     private String Hinh;
@@ -15,7 +16,7 @@ public class SanPham {
     public SanPham() {
     }
 
-    public SanPham(String maSanPham, String tenSanPham, int soLuong, float giaNhap, float giaBan, String loaiSanPham, String moTa, int tongSanPham, String Hinh) {
+    public SanPham(String maSanPham, String tenSanPham, int soLuong, float giaNhap, float giaBan, int loaiSanPham, String moTa, int tongSanPham, String Hinh) {
         this.maSanPham = maSanPham;
         this.tenSanPham = tenSanPham;
         this.soLuong = soLuong;
@@ -67,11 +68,11 @@ public class SanPham {
         this.giaBan = giaBan;
     }
 
-    public String getLoaiSanPham() {
+    public int getLoaiSanPham() {
         return loaiSanPham;
     }
 
-    public void setLoaiSanPham(String loaiSanPham) {
+    public void setLoaiSanPham(int loaiSanPham) {
         this.loaiSanPham = loaiSanPham;
     }
 

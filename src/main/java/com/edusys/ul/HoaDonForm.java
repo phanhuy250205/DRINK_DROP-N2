@@ -45,78 +45,87 @@ public class HoaDonForm extends javax.swing.JDialog {
     }
     
     
-    public void fillTableHoaDon(){
-        DefaultTableModel model = (DefaultTableModel) tblDSHoaDon.getModel();
-        model.setRowCount(0);
-        try {
-            List<HoaDon> list = hdDAO.selectAll();
-            for (HoaDon hd : list) {
+public void fillTableHoaDon() {
+    DefaultTableModel model = (DefaultTableModel) tblDSHoaDon.getModel();
+    model.setRowCount(0);
+    try {
+        List<HoaDon> list = hdDAO.selectAll();
+        for (HoaDon hd : list) {
+            Object[] row = {
+                hd.getMaHD(),
+                hd.getMaKhachHang(), // Display MaKhachHang
+                hd.getMaNhanVien(),
+                hd.getThoiGian(),
+                hd.getTongTien()// Include MaNhanVien if needed
+            };
+            model.addRow(row);
+        }
+    } catch (Exception e) {
+        MsgBox.alert(this, "Lỗi Truy Vấn Dữ Liệu: " + e.getMessage());
+    }
+}
+
+
+
+    
+   public void fillTableHoaDonChiTiet() {
+    DefaultTableModel model = (DefaultTableModel) tblChiTietHoaDon.getModel();
+    model.setRowCount(0);
+    try {
+        if (this.row >= 0) {
+            // Get the MaHoaDon as an integer
+            Integer maHoaDon = (Integer) tblDSHoaDon.getValueAt(this.row, 0);
+            // Fetch details using the updated maHoaDon type
+            List<HoaDonChiTiet> list = hdctDAO.selectByMaHD(maHoaDon);
+            for (HoaDonChiTiet hdct : list) {
                 Object[] row = {
-                    hd.getMaHD(),
-                    hd.getKhachHang(),
-                    hd.getDiaChiKhach(),
-                    hd.getSDTKhach(),
-                    hd.getTongTien(),
-                    hd.getThoiGian()
+                    hdct.getMaHDCT(),
+                    hdct.getMaHD(),
+                    hdct.getMaSanPham(),
+                    hdct.getSoLuong(),
+                    hdct.getDonGia(),
+                    hdct.getThanhTien()
                 };
                 model.addRow(row);
             }
-        } catch (Exception e) {
-            MsgBox.alert(this, "Lỗi Truy Vấn Dữ Liệu!");
         }
+    } catch (Exception e) {
+        MsgBox.alert(this, "Lỗi Truy Vấn Dữ Liệu: " + e.getMessage());
     }
-    
-    public void fillTableHoaDonChiTiet() {
-        DefaultTableModel model = (DefaultTableModel) tblChiTietHoaDon.getModel();
-        model.setRowCount(0);
-        try {
-                String maHoaDon = (String) tblDSHoaDon.getValueAt(this.row, 0);
-                List<HoaDonChiTiet> list = hdctDAO.selectByMaHD(maHoaDon);
-                for (HoaDonChiTiet hdct : list) {
-                    Object[] row = {
-                        hdct.getMaHDCT(),
-                        hdct.getMaHD(),
-                        hdct.getMaSanPham(),
-                        hdct.getSoLuong(),
-                        hdct.getDonGia(),
-                        hdct.getThanhTien()
-                    };
-                    model.addRow(row);
-                }
+}
 
-        } catch (Exception e){
-            MsgBox.alert(this, "Lỗi Truy Vấn Dữ Liệu!" + e.getMessage());
-        }
-    }
-    
-    public void fillTimKiem() {
-        DefaultTableModel model = (DefaultTableModel) tblDSHoaDon.getModel();
-        model.setRowCount(0);
-        try {
-            String keyword = txtTimKiem.getText();
-            List<HoaDon> list = hdDAO.selectByKeyword(keyword);
-            for (HoaDon hd : list) {
-                Object[] row = {
-                    hd.getMaHD(),
-                    hd.getKhachHang(),
-                    hd.getDiaChiKhach(),
-                    hd.getSDTKhach(),
-                    hd.getTongTien(),
-                    hd.getThoiGian(),
-                    hd.getMaNhanVien()
-                };
-                model.addRow(row);
-            }
-        } catch (Exception e) {
-            MsgBox.alert(this, "Lỗi Truy Vấn Dữ Liệu!");
-        }
-    }
 
-    public void timKiem(){
-        this.fillTimKiem();
-        this.row = -1;
-    }
+
     
+   public void fillTimKiem() {
+    DefaultTableModel model = (DefaultTableModel) tblDSHoaDon.getModel();
+    model.setRowCount(0);
+    try {
+        String keyword = txtTimKiem.getText();
+        List<HoaDon> list = hdDAO.selectByKeyword(keyword);
+        for (HoaDon hd : list) {
+            Object[] row = {
+                hd.getMaHD(),
+                hd.getMaKhachHang(),
+                hd.getTongTien(),
+                hd.getThoiGian(),
+                hd.getMaNhanVien()  // Include MaNhanVien if needed
+            };
+            model.addRow(row);
+        }
+    } catch (Exception e) {
+        MsgBox.alert(this, "Lỗi Truy Vấn Dữ Liệu: " + e.getMessage());
+    }
+}
+
+
+
+    public void timKiem() {
+    this.fillTimKiem();
+    this.row = -1;
+}
+
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -190,13 +199,13 @@ public class HoaDonForm extends javax.swing.JDialog {
         tblDSHoaDon.setBackground(new java.awt.Color(255, 255, 255));
         tblDSHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Mã HD", "Khách Hàng", "Địa Chỉ Khách", "SĐT Khách", "Tổng Tiền", "Thời Gian"
+                "Mã HD", "Mã KH", "Mã NV", "Thời Gian", "Tổng Tiền"
             }
         ));
         tblDSHoaDon.setRowHeight(30);
